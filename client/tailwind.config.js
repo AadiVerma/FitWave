@@ -5,6 +5,9 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      "space":["Space Grotesk","sans-serif"],
+    },
     extend: {},
   },
   plugins: [],
