@@ -58,7 +58,7 @@ function DonutChart() {
     };
 
     return (
-        <div className='h-[290px] w-[50%] text-white  bg-[#121212] rounded-l-xl border-1 p-4'>
+        <div className='h-[240px] w-[50%] text-white  bg-[#121212] rounded-l-xl border-1 p-4'>
             <Doughnut data={data} options={options} />
         </div>
     );

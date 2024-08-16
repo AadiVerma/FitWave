@@ -7,7 +7,7 @@ import { FiLogOut } from "react-icons/fi";
 import { LuHome } from "react-icons/lu";
 export default function SideBar() {
     return (
-        <div className="w-[7%] bg-[#121212] grid grid-cols-1 place-items-center min-h-screen">
+        <div className="w-[7%] bg-transparent grid grid-cols-1 place-items-center min-h-screen">
             <div className="">
                 <FaDumbbell className="text-5xl text-[#CCFF33] mt-[-50%]" />
             </div>
