@@ -1,7 +1,7 @@
 import BarChart from "./components/BarChart"
 import DonutChart from "./components/PieChart"
-import SideBar from "./components/SideBar"
-import TopBar from "./components/TopBar"
+// import SideBar from "./components/SideBar"
+// import TopBar from "./components/TopBar"
 import Trainercard from "./components/TrainerCard";
 import { FaAngleRight } from "react-icons/fa6";
 import { IoFitness } from "react-icons/io5";
@@ -14,21 +14,16 @@ import './App.css';
 function App() {
 
   return (
-    <div className='text-xl  text-[#CCFF33] min-h-[100vh] h-fit bg-black flex font-space custom-scrollbar' style={{ maxHeight: '400px' }}>
-      <div className="fixed w-[20%] p-8 left-0 top-0 h-full">
-      <SideBar />
-      </div>
-      <div className="w-fullh-full ml-[6%]">
-        <TopBar />
-        {/* section - 1 */}
-        <div className="flex p-2">
+    <div className='text-xl text-[#CCFF33] min-h-[100%] h-fit bg-black flex font-space custom-scrollbar'>
+      <div className="w-full flex flex-col">
+        <div className="flex p-2 flex-grow">
           <div className="w-[40%] p-4 h-[270px]">
             <div className="flex justify-between">
               <h1 className="text-2xl text-white font-space font-bold mb-4">Activity</h1>
             </div>
             <BarChart />
           </div>
-          <div className="w-[40%] p-4 h-fit custom-scrollbar">
+          <div className="w-[40%] p-4 custom-scrollbar">
             <div className="flex justify-between">
               <h1 className="text-2xl text-white font-space font-bold mb-4">Overview</h1>
             </div>
@@ -180,53 +175,53 @@ function App() {
             <h1 className="text-white text-2xl font-bold">Your Goals</h1>
             <div className="flex gap-4 text-[#9c9696] cursor-pointer">
               <h2>View all</h2>
-              <FaAngleRight className="mt-1"/>
+              <FaAngleRight className="mt-1" />
             </div>
           </div>
           <div className="flex mt-4 bg-[#121212] justify-between p-4 rounded-xl mr-10 gap-4 ml-10">
             <div className="flex gap-6 bg-[#CCFF33] w-[33%] p-4 pb-2 rounded-lg">
-            <div className="h-16 w-20 bg-white rounded-lg">
-              <img src={image}/>
+              <div className="h-16 w-20 bg-white rounded-lg">
+                <img src={image} />
               </div>
-            <div className="w-full">
-              <h1 className="text-lg text-black font-bold mb-2">Lose Weight to 60Kg</h1>
-              <div className="rounded-2xl w-full h-2 bg-white flex-col mb-1 justify-center place-content-center">
-                <div className="rounded-2xl bg-[#45ffa6] w-[50%] h-2 "></div>
+              <div className="w-full">
+                <h1 className="text-lg text-black font-bold mb-2">Lose Weight to 60Kg</h1>
+                <div className="rounded-2xl w-full h-2 bg-white flex-col mb-1 justify-center place-content-center">
+                  <div className="rounded-2xl bg-[#45ffa6] w-[50%] h-2 "></div>
+                </div>
+                <div className="flex justify-end text-black text-lg">
+                  <h1>50%</h1>
+                </div>
               </div>
-              <div className="flex justify-end text-black text-lg">
-                <h1>50%</h1>
-              </div>
-            </div>
             </div>
             <div className="flex gap-6 bg-[#45ffa6] w-[33%] p-4 pb-2 rounded-lg">
-            <div className="h-16 w-20 bg-white rounded-lg">
-              <img src={image}/>
+              <div className="h-16 w-20 bg-white rounded-lg">
+                <img src={image} />
               </div>
-            <div className="w-full">
-              <h1 className="text-lg text-black font-bold mb-2">Do 150 WorkOuts in a year</h1>
-              <div className="rounded-2xl w-full h-2 bg-white flex-col mb-1 justify-center place-content-center">
-                <div className="rounded-2xl bg-orange-400 w-[33%] h-2 "></div>
+              <div className="w-full">
+                <h1 className="text-lg text-black font-bold mb-2">Do 150 WorkOuts in a year</h1>
+                <div className="rounded-2xl w-full h-2 bg-white flex-col mb-1 justify-center place-content-center">
+                  <div className="rounded-2xl bg-orange-400 w-[33%] h-2 "></div>
+                </div>
+                <div className="flex justify-end text-black text-lg">
+                  <h1>33%</h1>
+                </div>
               </div>
-              <div className="flex justify-end text-black text-lg">
-                <h1>33%</h1>
-              </div>
-            </div>
             </div>
             <div className="flex gap-6 bg-[#ee33ff] w-[33%] p-4 pb-2 rounded-lg">
-            <div className="h-16 w-20 bg-white rounded-lg">
-              <img src={image}/>
+              <div className="h-16 w-20 bg-white rounded-lg">
+                <img src={image} />
               </div>
-            <div className="w-full">
-              <h1 className="text-lg text-black font-bold mb-2">Running Challenge</h1>
-              <div className="rounded-2xl w-full h-2 bg-white flex-col mb-1 justify-center place-content-center">
-                <div className="rounded-2xl bg-green-400 w-[70%] h-2 "></div>
-              </div>
-              <div className="flex justify-end text-black text-lg">
-                <h1>70%</h1>
+              <div className="w-full">
+                <h1 className="text-lg text-black font-bold mb-2">Running Challenge</h1>
+                <div className="rounded-2xl w-full h-2 bg-white flex-col mb-1 justify-center place-content-center">
+                  <div className="rounded-2xl bg-green-400 w-[70%] h-2 "></div>
+                </div>
+                <div className="flex justify-end text-black text-lg">
+                  <h1>70%</h1>
+                </div>
               </div>
             </div>
-            </div>
-            
+
           </div>
 
         </div>
