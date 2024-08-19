@@ -242,17 +242,17 @@ export default function HomePage() {
 
                     </div>
                     <div>
-                    <h1 className='text-3xl font-extrabold'>NEWSLETTER</h1>
+                        <h1 className='text-3xl font-extrabold'>NEWSLETTER</h1>
                         <div className='flex gap-4 mt-4'>
-                            <input className="p-2 bg-transparent border-2 rounded-md outline-none" type='text'   placeholder='Enter Your Email'/>
+                            <input className="p-2 bg-transparent border-2 rounded-md outline-none" type='text' placeholder='Enter Your Email' />
                             <button className="p-2 bg-[#CCFF33] hover:bg-[#b2df2c] rounded-md cursor-pointer text-black font-bold">SUBSCRIBE</button>
                         </div>
                         <div className='flex gap-4 mt-4'>
                             <div className="p-2 flex gap-2 ">
-                            <FaPhoneAlt className='text-[#CCFF33] mt-1'/>7888997888
+                                <FaPhoneAlt className='text-[#CCFF33] mt-1' />7888997888
                             </div>
                             <div className="p-2 flex gap-2 ">
-                            <IoMdMail className='text-[#CCFF33] mt-1'/>abc.be22@chitkara.edu.in
+                                <IoMdMail className='text-[#CCFF33] mt-1' />abc.be22@chitkara.edu.in
                             </div>
                         </div>
                     </div>
