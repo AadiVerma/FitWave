@@ -21,3 +21,6 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background-color: #CCFF33;
 }
+.stroke-text {
+    -webkit-text-stroke: 1px #CCFF33; 
+  }
