@@ -42,7 +42,9 @@ export default function HomePage() {
                     <h1 className='hover:text-[#CCFF33]'>CONTACT</h1>
                 </div>
                 <div className='flex gap-4'>
-                    <button className='border-2 border-[#CCFF33] bg-[#CCFF33] p-2 pl-6 pr-6 rounded hover:bg-[black] hover:text-white text-black font-bold'>LogIn</button>
+                    <button className='border-2 border-[#CCFF33] bg-[#CCFF33] p-2 pl-6 pr-6 rounded hover:bg-[black] hover:text-white text-black font-bold' onClick={()=>{
+                        navigate("/login")
+                    }}>LogIn</button>
                     <button className='border-2 border-[#CCFF33] p-2 pl-5 pr-5 rounded hover:bg-[#CCFF33] hover:text-black font-bold'>SignUp</button>
                 </div>
 
