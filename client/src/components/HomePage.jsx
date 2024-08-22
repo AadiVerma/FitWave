@@ -35,11 +35,13 @@ export default function HomePage() {
                 </h1>
                 <div className='flex gap-4 text-xl cursor-pointer'>
                     <h1 className='hover:text-[#CCFF33]'>HOME</h1>
-                    <h1 className='hover:text-[#CCFF33]'>ABOUT</h1>
-                    <h1 className='hover:text-[#CCFF33]'>CLASSES</h1>
+                    <a className='hover:text-[#CCFF33]' href='#about'>ABOUT</a>
+                    <h1 className='hover:text-[#CCFF33]' onClick={()=>{
+                        navigate("/classes")
+                    }}>CLASSES</h1>
                     <h1 className='hover:text-[#CCFF33]'>SHOP</h1>
-                    <h1 className='hover:text-[#CCFF33]'>TRAINERS</h1>
-                    <h1 className='hover:text-[#CCFF33]'>CONTACT</h1>
+                    <a className='hover:text-[#CCFF33]' href='#trainers'>TRAINERS</a>
+                    <a className='hover:text-[#CCFF33]' href="#contact">CONTACT</a>
                 </div>
                 <div className='flex gap-4'>
                     <button className='border-2 border-[#CCFF33] bg-[#CCFF33] p-2 pl-6 pr-6 rounded hover:bg-[black] hover:text-white text-black font-bold' onClick={()=>{
@@ -71,7 +73,7 @@ export default function HomePage() {
                 </div>
             </div>
             {/* section - 3 */}
-            <div className="relative bg-[#121212] w-full h-screen p-6 ">
+            <section id="about" className="relative bg-[#121212] w-full h-screen p-6 ">
                 <div className="absolute inset-0 left-[10%]">
                     <img src={image1} alt="Background" className="w-full h-full object-cover grayscale" />
                 </div>
@@ -130,9 +132,9 @@ export default function HomePage() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
             {/* section - 4 */}
-            <div className='pt-20 p-2 bg-[#212121]'>
+            <section id="trainers" className='pt-20 p-2 bg-[#212121]'>
                 <div className='mb-6'>
                     <h1 className='text-white text-center text-4xl font-bold'>
                         <span className="stroke-text text-[#CCFF33]">OUR</span> EXPERT TRAINERS
@@ -149,7 +151,7 @@ export default function HomePage() {
                     <TrainerShowCase image={image9} />
                     <TrainerShowCase image={image10} />
                 </div>
-            </div>
+            </section>
             {/* section - 5 */}
             <div className='pt-20 bg-[#212121]'>
                 <div className='w-full '>
@@ -188,7 +190,7 @@ export default function HomePage() {
                 </div>
             </div>
             {/* section - 7 */}
-            <div className='pt-20 bg-[#121212]'>
+            <section id="contact" className='pt-20 bg-[#121212]'>
                 <div className='w-full '>
                     <div className='relative bg-[#121212] w-full h-screen p-6'>
                         <div className='absolute inset-0 rounded-xl'>
@@ -214,7 +216,7 @@ export default function HomePage() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
             {/* section - 8 */}
             <div className='bg-black pt-14 '>
                 <div className='flex pl-10 justify-between pr-10'>
