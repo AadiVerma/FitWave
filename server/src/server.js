@@ -11,9 +11,13 @@ app.use(express.json());
 app.get('/',(req,res)=>{
     res.json({msg:"Hello World"});
 })
+app.post('/users',async (req,res)=>{
+    // console.log(req.body);
+    await loginUser.signupUser(req,res);
+})
 app.get('/users',async (req,res)=>{
-    console.log(req.body);
-    await loginUser(req,res);
+    // console.log(req.body);
+    await loginUser.loginUser(req,res);
 })
 app.listen(3000,()=>{
     console.log("listening on 3000");
