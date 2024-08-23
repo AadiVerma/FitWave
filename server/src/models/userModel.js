@@ -24,11 +24,11 @@ const userSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    trainers:[{
+    trainers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Trainers'
     }],
-    Goals:[{
+    Goals: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Goals'
     }],
@@ -51,7 +51,10 @@ const userSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Purchase'
     }]
-});
+},
+    {
+        timestamps: true 
+    });
 
 const User = mongoose.model('User', userSchema);
 export default User;

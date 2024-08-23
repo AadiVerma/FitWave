@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const trainer=mongoose.Schema({
+const trainer = mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -13,10 +13,9 @@ const trainer=mongoose.Schema({
         type: String,
         required: true,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-})
-const trainers=mongoose.model("Trainer",trainer);
+},
+    {
+        timestamps: true
+    })
+const trainers = mongoose.model("Trainer", trainer);
 export default trainers;

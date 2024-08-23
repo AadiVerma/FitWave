@@ -19,6 +19,8 @@ const purchaseSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     }
+}, {
+    timestamps: true
 });
 
 const Purchase = mongoose.model('Purchase', purchaseSchema);

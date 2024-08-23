@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const Goal=mongoose.Schema({
+const Goal = mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -17,10 +17,8 @@ const Goal=mongoose.Schema({
         type: Date,
         required: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    }
+}, {
+    timestamps: true
 })
-const Goals=mongoose.model("Goal",Goal);
+const Goals = mongoose.model("Goal", Goal);
 export default Goals;
