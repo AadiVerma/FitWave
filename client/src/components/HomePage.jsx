@@ -39,7 +39,9 @@ export default function HomePage() {
                     <h1 className='hover:text-[#CCFF33]' onClick={()=>{
                         navigate("/classes")
                     }}>CLASSES</h1>
-                    <h1 className='hover:text-[#CCFF33]'>SHOP</h1>
+                    <h1 className='hover:text-[#CCFF33]' onClick={()=>{
+                        navigate("/shop")
+                    }}>SHOP</h1>
                     <a className='hover:text-[#CCFF33]' href='#trainers'>TRAINERS</a>
                     <a className='hover:text-[#CCFF33]' href="#contact">CONTACT</a>
                 </div>

@@ -8,6 +8,7 @@ import NotFound from './components/NotFound.jsx';
 import SetUpGoals from './components/SetUpGoals.jsx';
 import Login from './components/Login.jsx';
 import ClassesUi from './components/ClassUi.jsx';
+import Shop from './components/Shop.jsx';
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <Routes>
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')).render(
       <Route path='/login' element={<Login/>}/>
       <Route path='/classes' element={<ClassesUi/>}/>
       </Route>
+      <Route path='/shop' element={<Shop/>}/>
       <Route path='/*' element={<NotFound />} /> 
       </Routes>
 
