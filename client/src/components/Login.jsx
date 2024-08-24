@@ -85,7 +85,7 @@ export default function Login() {
                                 render={renderProps => (
                                     <div className='flex w-[90%] bg-white justify-center rounded-lg cursor-pointer' onClick={renderProps.onClick}>
                                         <FcGoogle className='text-3xl mt-1' />
-                                        <button disabled={renderProps.disabled} className='text-black font-extrabold rounded-md px-4 py-2'>
+                                        <button disabled={renderProps.disabled} className='text-black font-extrabold rounded-md px-4 py-2 cursor-pointer'>
                                             Login with Google
                                         </button>
                                     </div>
