@@ -50,3 +50,6 @@ To get a local copy up and running, follow these simple steps.
 1. Clone the repo:
    ```bash
    git clone https://github.com/yourusername/fitwave.git
+2. **Navigate to the project directory:**
+   ```bash
+   cd fitwave
