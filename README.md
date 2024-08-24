@@ -49,10 +49,10 @@ To get a local copy up and running, follow these simple steps.
 2. **Navigate to the project directory:**
    ```bash
    cd fitwave
-3. ***Navigate to the client directory and install client-side dependencies:
+3. **Navigate to the client directory and install client-side dependencies:
    ```bash
    cd ../client
-4. ***Now install it
+4. **Now install it
    ```bash
    npm install
 ## Screenshots
