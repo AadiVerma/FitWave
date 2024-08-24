@@ -63,10 +63,11 @@ export default function Login() {
                         <input className='bg-pink-500 hover:bg-pink-600 rounded-md mt-2 block w-full cursor-pointer text-center font-semibold p-2' value="Continue" type="submit" />
 
                         <div className='w-full text-sm mt-2 flex justify-center '>
-                            <h3 className=''>Don`t have an account?</h3>
-                            <p className='pl-3 text-emerald-400 cursor-pointer hover:font-semibold' onClick={()=>{
-                            navigate("/signup")
-                            }}>Sign up</p>
+                            <h3 className=''>Already have an account?</h3>
+                            <p className='pl-3 text-emerald-400 cursor-pointer hover:font-semibold'
+                            onClick={()=>{
+                            navigate("/login")
+                            }}>Log in</p>
                         </div>
 
                         <div className='flex justify-center'>
@@ -86,7 +87,7 @@ export default function Login() {
                                     <div className='flex w-[90%] bg-white justify-center rounded-lg cursor-pointer' onClick={renderProps.onClick}>
                                         <FcGoogle className='text-3xl mt-1' />
                                         <button disabled={renderProps.disabled} className='text-black font-extrabold rounded-md px-4 py-2'>
-                                            Login with Google
+                                            SignUp with Google
                                         </button>
                                     </div>
 
