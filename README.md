@@ -1,6 +1,6 @@
 # FitWave 🏋️‍♂️
 
-![FitWave Logo] ![image](https://github.com/user-attachments/assets/3dac1ec1-8b02-4863-966e-d2572d4bf01e)
+![image](https://github.com/user-attachments/assets/3dac1ec1-8b02-4863-966e-d2572d4bf01e)
 
 
 FitWave is a comprehensive fitness platform designed to offer a variety of workout classes, personalized AI-generated workout plans, and a dedicated store for fitness products. Users can also hire personal trainers, track their calorie intake, and maintain their fitness streaks.
