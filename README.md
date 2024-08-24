@@ -1,8 +1,4 @@
 # FitWave 🏋️‍♂️
-
-![image](https://github.com/user-attachments/assets/3dac1ec1-8b02-4863-966e-d2572d4bf01e)
-
-
 FitWave is a comprehensive fitness platform designed to offer a variety of workout classes, personalized AI-generated workout plans, and a dedicated store for fitness products. Users can also hire personal trainers, track their calorie intake, and maintain their fitness streaks.
 
 ## Table of Contents
@@ -53,3 +49,52 @@ To get a local copy up and running, follow these simple steps.
 2. **Navigate to the project directory:**
    ```bash
    cd fitwave
+3. ***Navigate to the client directory and install client-side dependencies:
+   ```bash
+   cd ../client
+4. ***Now install it
+   ```bash
+   npm install
+## Screenshots
+
+### Home Page
+![image](https://github.com/user-attachments/assets/719f30cd-47f9-4675-b79b-7f26e56ba346)
+
+### AI fitness Assistant
+![image](https://github.com/user-attachments/assets/b9c37e6b-1d01-49aa-9379-0a5c6f0816a6)
+
+### Shopping Area
+![image](https://github.com/user-attachments/assets/7ae4a2b4-10a4-45f8-bf58-9c0f4384560a)
+
+### Classes
+![image](https://github.com/user-attachments/assets/0282a99a-102a-4bd0-9401-2e9626d04935)
+
+### Login
+![image](https://github.com/user-attachments/assets/1d607288-d1ee-4263-a750-e91795c45583)
+
+### DashBoard
+![image](https://github.com/user-attachments/assets/bea52549-abc1-4c0f-bad6-188f709c1b4e)
+
+
+
+
+## Contributing
+
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
+
+### How to Contribute
+
+1. **Fork the Project**
+2. **Create your Feature Branch**
+   ```bash
+   git checkout -b feature/YourFeature
+3. **Commit your Changes
+   ```bash
+   git commit -m 'Add some YourFeature'
+4. **Push to the Branch
+   ```bash
+   git push origin feature/YourFeature
+5. **Open a Pull Request
+
+### Project Link
+https://github.com/AadiVerma/FitWave
