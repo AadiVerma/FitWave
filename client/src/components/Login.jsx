@@ -24,7 +24,7 @@ export default function Login() {
     };
 
     return (
-        <>
+        <div className='custom-scrollbar min-h-[100%] h-fit'>
             <div className='bg-black text-white font-space border-[#212121] '>
                 <div className='bg-black text-white w-full h-[612px] p-5 my-auto'>
                     <form className='w-2/5 mx-auto h-[530px] mt-5 p-4 border-[#212121] rounded-lg border-2' onSubmit={handleSubmit((data) => setData(JSON.stringify(data)))}>
@@ -96,6 +96,6 @@ export default function Login() {
                     </form>
                 </div>
             </div>
-         </>
+         </div>
     )
 }
