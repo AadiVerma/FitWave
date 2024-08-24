@@ -43,16 +43,16 @@ To get a local copy up and running, follow these simple steps.
 
 ### Installation
 
-1. Clone the repo:
+1. **Clone the repo:**
    ```bash
    git clone https://github.com/yourusername/fitwave.git
 2. **Navigate to the project directory:**
    ```bash
    cd fitwave
-3. **Navigate to the client directory and install client-side dependencies:
+3. **Navigate to the client directory and install client-side dependencies:**
    ```bash
    cd ../client
-4. **Now install it
+4. **Now install it**
    ```bash
    npm install
 ## Screenshots
@@ -88,13 +88,13 @@ Contributions are what make the open-source community such an amazing place to l
 2. **Create your Feature Branch**
    ```bash
    git checkout -b feature/YourFeature
-3. **Commit your Changes
+3. **Commit your Changes**
    ```bash
    git commit -m 'Add some YourFeature'
-4. **Push to the Branch
+4. **Push to the Branch**
    ```bash
    git push origin feature/YourFeature
-5. **Open a Pull Request
+5. **Open a Pull Request**
 
 ### Project Link
 https://github.com/AadiVerma/FitWave
