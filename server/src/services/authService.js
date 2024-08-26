@@ -37,18 +37,18 @@ const loginUser = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 }
-const signupUser=async(req,res)=>{
-    const signvalid=signupValidate.safeParse(req.body);
-    if(!signvalid.success){
+const signupUser = async (req, res) => {
+    const signvalid = signupValidate.safeParse(req.body);
+    if (!signvalid.success) {
         return res.status(400).json({ error: "Invalid input" });
     }
-    const {username,email,password,gender,age,weight,height}=req.body;
+    const { username, email, password, gender, age, weight, height } = req.body;
     try {
         const user = await User.findOne({ username: username, password: password });
         if (user) {
-            return res.status(401).json({ error: "user already exists"});
+            return res.status(401).json({ error: "user already exists" });
         }
-        const newuser =new User({
+        const newuser = new User({
             username,
             password,
             email,
@@ -63,9 +63,9 @@ const signupUser=async(req,res)=>{
             maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true,
         })
-        return res.status(200).json({ message: "SignUp successful", token }); 
+        return res.status(200).json({ message: "SignUp successful", token });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
 }
-export default {loginUser,signupUser};
+export default { loginUser, signupUser };
