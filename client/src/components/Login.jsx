@@ -6,14 +6,27 @@ import { FcGoogle } from "react-icons/fc";
 const clientID = "456140993308-lj743g6h1ssb2si49pb8rgvlrkc28u20.apps.googleusercontent.com";
 import '../App.css'
 import { useNavigate } from 'react-router-dom';
+import { resolve } from 'chart.js/helpers';
 
 
 export default function Login() {
-    const { register, handleSubmit, formState:{errors,isValid} } = useForm({mode:'onChange'});
+    const { register, handleSubmit, formState:{errors,isValid, isSubmitting} } = useForm({mode:'onChange'});
     const [data, setData] = useState("");
     const navigate = useNavigate();
 
-    console.log(data);
+    // const delay = (d)=>{
+    //     return new Promise((resolve,reject)=>{
+    //         setTimeout(()=>{
+    //             resolve()
+    //         },d*1000);
+    //     })
+    // }
+
+    const onSubmit = async (data)=>{
+        // await delay(2)
+        console.log(data);
+    }
+
 
     const onSuccess = (res) => {
         console.log("Login Success! Current user: ", res.profileObj);
@@ -27,7 +40,7 @@ export default function Login() {
         <div className='custom-scrollbar min-h-[100%] h-fit'>
             <div className='bg-black text-white font-space border-[#212121] '>
                 <div className='bg-black text-white w-full h-[612px] p-5 my-auto'>
-                    <form className='w-2/5 mx-auto h-[550px] mt-5 p-4 border-[#212121] rounded-lg border-2' onSubmit={handleSubmit((data) => setData(JSON.stringify(data)))}>
+                    <form className='w-2/5 mx-auto h-[550px] mt-5 p-4 border-[#212121] rounded-lg border-2' onSubmit={handleSubmit(onSubmit)}>
                         <div className='w-full text-center'>
                             <MdOutlineFitnessCenter className="w-full text-[#CCFF33] text-6xl transform -rotate-45 cursor-pointer" />
                             <h2 className='text-xl font-semibold mt-[-4px]'>Welcome to FitWave</h2>
@@ -65,7 +78,8 @@ export default function Login() {
                         })} placeholder="Password" />
 
                         {errors.password && <div className='text-red-600 mb-3 ml-1'>{errors.password.message}</div>}
-
+                        
+                        {/* {isSubmitting && <div>Loading...</div>} */}
                         <input className={`bg-pink-500 hover:bg-pink-600 rounded-md mt-2 block w-full cursor-pointer text-center font-semibold p-2 ${!isValid ? 'opacity-50 cursor-not-allowed' : ''}`} value="Continue" type="submit" disabled={!isValid} />
 
                         <div className='w-full text-sm mt-2 flex justify-center '>
