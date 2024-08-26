@@ -7,7 +7,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-async function sendOTP({email,otp}) {
+async function sendOTP({ email, otp }) {
     try {
         const info = await transporter.sendMail({
             from: '"FitWave" <adityaverma9907@gmail.com>',
