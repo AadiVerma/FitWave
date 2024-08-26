@@ -10,6 +10,9 @@ import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
 import ClassesUi from './components/ClassUi.jsx';
 import Shop from './components/Shop.jsx';
+import ForgotPwd from './components/ForgotPwd.jsx';
+import VerificationPwd from './components/VerificationPwd.jsx';
+
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <Routes>
@@ -19,6 +22,8 @@ createRoot(document.getElementById('root')).render(
       <Route path='/goals' element={<SetUpGoals />} /> 
       <Route path='/login' element={<Login/>}/>
       <Route path='/signup' element={<Signup/>}/>
+      <Route path='/forgotpwd' element={<ForgotPwd/>}/>
+      <Route path='/verification' element={<VerificationPwd/>}/>
       <Route path='/classes' element={<ClassesUi/>}/>
       </Route>
       <Route path='/shop' element={<Shop/>}/>
