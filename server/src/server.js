@@ -7,14 +7,20 @@ import dbURI from "./config/envConfig.js"
 import loginUser from './services/authService.js';
 import otpsending from './validations/emailvalidations.js'
 import verifyotp from './validations/verifyotp.js'
+import loginData from './validations/loginData.js';
+
 DBConnect(dbURI.dbURI);
 const app = express();
+
 app.use(express.json());
 app.get('/', (req, res) => {
     res.json({ msg: "Hello World" });
 })
 app.use('/email', otpsending);
 app.use('/verifyotp', verifyotp);
+
+app.use('/api/email', loginData);
+
 app.post('/users', async (req, res) => {
     await loginUser.signupUser(req, res);
 })
