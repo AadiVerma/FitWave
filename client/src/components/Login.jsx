@@ -14,17 +14,34 @@ export default function Login() {
     const [data, setData] = useState("");
     const navigate = useNavigate();
 
-    // const delay = (d)=>{
-    //     return new Promise((resolve,reject)=>{
-    //         setTimeout(()=>{
-    //             resolve()
-    //         },d*1000);
-    //     })
-    // }
+    const delay = (d)=>{
+        return new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                resolve()
+            },d*1000);
+        })
+    }
 
     const onSubmit = async (data)=>{
-        // await delay(2)
-        console.log(data);
+        await delay(2);
+        try {
+            let response = await fetch("http://localhost:3000/api/email", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+    
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+    
+            let res = await response.text();
+            console.log(data, res);
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
     }
 
 
@@ -79,8 +96,8 @@ export default function Login() {
 
                         {errors.password && <div className='text-red-600 mb-3 ml-1'>{errors.password.message}</div>}
                         
-                        {/* {isSubmitting && <div>Loading...</div>} */}
-                        <input className={`bg-pink-500 hover:bg-pink-600 rounded-md mt-2 block w-full cursor-pointer text-center font-semibold p-2 ${!isValid ? 'opacity-50 cursor-not-allowed' : ''}`} value="Continue" type="submit" disabled={!isValid} />
+                        {isSubmitting && <div className='text-center'>Loading...</div>}
+                        <input className={`bg-pink-500 hover:bg-pink-600 rounded-md mt-2 block w-full cursor-pointer text-center font-semibold p-2 ${!isValid  || isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`} value="Continue" type="submit" disabled={!isValid || isSubmitting} />
 
                         <div className='w-full text-sm mt-2 flex justify-center '>
                             <h3 className=''>Don`t have an account?</h3>
