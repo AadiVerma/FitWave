@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { MdOutlineFitnessCenter } from "react-icons/md";
@@ -7,14 +8,28 @@ const clientID = "456140993308-lj743g6h1ssb2si49pb8rgvlrkc28u20.apps.googleuserc
 import '../App.css'
 import { useNavigate } from 'react-router-dom';
 
-
 export default function Login() {
     const { register, handleSubmit, formState:{errors,isValid} } = useForm({mode:'onChange'});
-    const [data, setData] = useState("");
     const navigate = useNavigate();
-
-    console.log(data);
-
+    const onSubmit = async (formData) => {
+        try {
+            const username=formData.username;
+            const email=formData.email;
+            const password=formData.password;
+            console.log(username, email, password);
+            const response = await axios.post('http://localhost:3000/user/signup', {
+                username:username,
+                email:email,
+                password:password
+            },{
+                withCredentials:true
+            });
+            console.log("Login successful:", response.data);
+            navigate('/');
+        } catch (error) {
+            console.error("Login failed:", error.response?.data || error.message);
+        }
+    };
     const onSuccess = (res) => {
         console.log("Login Success! Current user: ", res.profileObj);
     };
@@ -27,7 +42,7 @@ export default function Login() {
         <div className='custom-scrollbar min-h-[100%] h-fit'>
             <div className='bg-black text-white font-space border-[#212121] '>
                 <div className='bg-black text-white w-full h-[612px] p-5 my-auto'>
-                    <form className='w-2/5 mx-auto h-[530px] mt-5 p-4 border-[#212121] rounded-lg border-2' onSubmit={handleSubmit((data) => setData(JSON.stringify(data)))}>
+                    <form className='w-2/5 mx-auto h-[530px] mt-5 p-4 border-[#212121] rounded-lg border-2' onSubmit={handleSubmit(onSubmit)}>
                         <div className='w-full text-center'>
                             <MdOutlineFitnessCenter className="w-full text-[#CCFF33] text-6xl transform -rotate-45 cursor-pointer" />
                             <h2 className='text-xl font-semibold mt-[-4px]'>Welcome to FitWave</h2>

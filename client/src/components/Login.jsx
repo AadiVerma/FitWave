@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { MdOutlineFitnessCenter } from "react-icons/md";
 import { GoogleLogin } from 'react-google-login';
@@ -6,16 +5,15 @@ import { FcGoogle } from "react-icons/fc";
 const clientID = "456140993308-lj743g6h1ssb2si49pb8rgvlrkc28u20.apps.googleusercontent.com";
 import '../App.css'
 import { useNavigate } from 'react-router-dom';
-import { resolve } from 'chart.js/helpers';
+import axios from "axios";
 
 
 export default function Login() {
     const { register, handleSubmit, formState:{errors,isValid, isSubmitting} } = useForm({mode:'onChange'});
-    const [data, setData] = useState("");
     const navigate = useNavigate();
 
     const delay = (d)=>{
-        return new Promise((resolve,reject)=>{
+        return new Promise((resolve)=>{
             setTimeout(()=>{
                 resolve()
             },d*1000);
@@ -25,20 +23,16 @@ export default function Login() {
     const onSubmit = async (data)=>{
         await delay(2);
         try {
-            let response = await fetch("http://localhost:3000/api/email", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
+            console.log(data);
+            const response = await axios.post("http://localhost:3000/user/login", {
+               username:data.username,
+               password:data.password,
+               email:data.email
+            },{
+                withCredentials: true,
             });
-    
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-    
-            let res = await response.text();
-            console.log(data, res);
+            console.log(response);
+            navigate("/");
         } catch (error) {
             console.error('Fetch error:', error);
         }

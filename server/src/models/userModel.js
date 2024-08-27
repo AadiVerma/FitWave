@@ -22,7 +22,6 @@ const userSchema = mongoose.Schema({
     },
     age: {
         type: Number,
-        required: true
     },
     trainers: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -34,11 +33,9 @@ const userSchema = mongoose.Schema({
     }],
     weight: {
         type: Number,
-        required: true
     },
     height: {
         type: Number,
-        required: true
     },
     daysActive: {
         type: [Date]
