@@ -6,9 +6,11 @@ const clientID = "456140993308-lj743g6h1ssb2si49pb8rgvlrkc28u20.apps.googleuserc
 import '../App.css'
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-
+import {addcookie} from '../redux/slices/slice.js'
+import { useDispatch } from "react-redux";
 
 export default function Login() {
+    const dispatch=useDispatch();
     const { register, handleSubmit, formState:{errors,isValid, isSubmitting} } = useForm({mode:'onChange'});
     const navigate = useNavigate();
 
@@ -32,6 +34,7 @@ export default function Login() {
                 withCredentials: true,
             });
             console.log(response);
+            dispatch(addcookie(true));
             navigate("/");
         } catch (error) {
             console.error('Fetch error:', error);

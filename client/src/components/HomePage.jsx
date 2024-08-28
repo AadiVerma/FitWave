@@ -21,8 +21,15 @@ import { SiTicktick } from "react-icons/si";
 import TrainerShowCase from './TrainerShowcase';
 import image2 from '/Image2.png'
 import OurClient from './OurClient';
+import { useSelector } from 'react-redux';
+import { authselector } from '../redux/slices/slice';
+import { useDispatch } from 'react-redux';
+import { removecookie } from '../redux/slices/slice';
+import Cookies from 'js-cookie';
 export default function HomePage() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const auth = useSelector(authselector);
     return (
         <div className='bg-black font-space custom-scrollbar min-h-screen h-fit text-white'>
             {/* section - 1 */}
@@ -36,23 +43,29 @@ export default function HomePage() {
                 <div className='flex gap-4 text-xl cursor-pointer'>
                     <h1 className='hover:text-[#CCFF33]'>HOME</h1>
                     <a className='hover:text-[#CCFF33]' href='#about'>ABOUT</a>
-                    <h1 className='hover:text-[#CCFF33]' onClick={()=>{
+                    <h1 className='hover:text-[#CCFF33]' onClick={() => {
                         navigate("/classes")
                     }}>CLASSES</h1>
-                    <h1 className='hover:text-[#CCFF33]' onClick={()=>{
+                    <h1 className='hover:text-[#CCFF33]' onClick={() => {
                         navigate("/shop")
                     }}>SHOP</h1>
                     <a className='hover:text-[#CCFF33]' href='#trainers'>TRAINERS</a>
                     <a className='hover:text-[#CCFF33]' href="#contact">CONTACT</a>
                 </div>
-                <div className='flex gap-4'>
-                    <button className='border-2 border-[#CCFF33] bg-[#CCFF33] p-2 pl-6 pr-6 rounded hover:bg-[black] hover:text-white text-black font-bold' onClick={()=>{
+                {auth == false ? <div className='flex gap-4'>
+                    <button className='border-2 border-[#CCFF33] bg-[#CCFF33] p-2 pl-6 pr-6 rounded hover:bg-[black] hover:text-white text-black font-bold' onClick={() => {
                         navigate("/login")
                     }}>LogIn</button>
-                    <button className='border-2 border-[#CCFF33] p-2 pl-5 pr-5 rounded hover:bg-[#CCFF33] hover:text-black font-bold' onClick={()=>{
+                    <button className='border-2 border-[#CCFF33] p-2 pl-5 pr-5 rounded hover:bg-[#CCFF33] hover:text-black font-bold' onClick={() => {
                         navigate("/signup")
                     }}>SignUp</button>
-                </div>
+                </div> : <div className='flex gap-4'>
+                <button className='border-2 border-[#CCFF33] bg-[#CCFF33] p-2 pl-6 pr-6 rounded hover:bg-[black] hover:text-white text-black font-bold' onClick={() => {
+                        dispatch(removecookie());
+                        Cookies.remove("JWTTOKEN")
+                        navigate("/login")
+                    }}>LogOut</button>
+                </div>}
 
             </div>
             {/* section - 2 */}
@@ -69,7 +82,7 @@ export default function HomePage() {
                         <h2 className='flex flex-wrap w-[55%] text-xl ml-[1%] mt-[1%]'>Unlock your full potential with our comprehensive workout programs designed to transform your physique and boost your confidence</h2>
                         <div className='mt-4 ml-10 flex gap-6'>
                             <button className='p-2 pl-6 pr-6 border-2 font-bold border-[#CCFF33] rounded hover:bg-[#CCFF33] hover:text-black' onClick={() => {
-                                navigate('/dashboard')
+                                auth ? navigate('/dashboard') : navigate("/login")
                             }}>Get Started</button>
                             <button className='p-2 pl-6 pr-6 border-2 font-bold text-black hover:text-white border-[#CCFF33] bg-[#CCFF33] hover:bg-black rounded'>Learn More</button>
                         </div>
@@ -171,7 +184,7 @@ export default function HomePage() {
                                 <h1 className='text-center text-2xl mt-6'>ACHIEVE YOUR FITNESS GOALS WITH OUR PERSONALIZED PLANS , AI-POWERD FEATURES, AND EXPERT GUIDANCE</h1>
                                 <div className='flex justify-center mt-6'>
                                     <button className='p-4 pl-8 pr-8 border-2 text-xl font-extrabold border-[#CCFF33] rounded hover:bg-[#CCFF33] hover:text-black' onClick={() => {
-                                        navigate('/dashboard')
+                                        auth ? navigate('/dashboard') : navigate("/login")
                                     }}>Try Now </button>
                                 </div>
                             </div>
@@ -211,7 +224,7 @@ export default function HomePage() {
                                 </div>
                                 <div className='flex justify-center mt-6'>
                                     <button className='p-4 w-[50%] border-2 text-xl font-extrabold border-[#CCFF33] rounded hover:bg-[#CCFF33] hover:text-black' onClick={() => {
-                                        navigate('/dashboard')
+                                        auth ? navigate('/dashboard') : navigate("/login")
                                     }}>SEND</button>
                                 </div>
                             </div>
@@ -271,6 +284,6 @@ export default function HomePage() {
                 </div>
             </div>
 
-        </div>
+        </div >
     )
 }

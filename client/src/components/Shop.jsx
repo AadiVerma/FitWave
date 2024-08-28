@@ -10,7 +10,10 @@ import Image4 from '/Creatine.png'
 import Image5 from '/PunchingBag.png'
 import Image6 from '/Treadmill.png'
 import '../App.css'
+import { useSelector } from "react-redux";
+import { authselector } from "../redux/slices/slice";
 export default function Shop() {
+    const auth=useSelector(authselector);
     const navigate = useNavigate();
     return (
         <div className="bg-black min-h-screen text-white font-space custom-scrollbar">
@@ -31,8 +34,8 @@ export default function Shop() {
                         navigate("/classes")
                     }}>CLASSES</h1>
                     <h1 className='hover:text-[#CCFF33]' onClick={() => {
-                        navigate("/dashboard")
-                    }}>DASHBOARD</h1>
+                        auth?navigate("/dashboard"):navigate("/login")
+                        }}>DASHBOARD</h1>
                 </div>
                 <div className="flex justify-center gap-4">
                 <FaRegHeart className="text-2xl mt-1 text-[#CCFF33] cursor-pointer"/>
