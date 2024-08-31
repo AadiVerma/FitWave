@@ -18,9 +18,9 @@ export default function Login() {
                 withCredentials:true
             });
             console.log(email,username);
+            navigate('/verification',{state:{email}});
             setEmail("");
             setUsername("");
-            navigate('/verification');
         } catch (error) {
             console.log("error",error)
         }
@@ -28,8 +28,8 @@ export default function Login() {
 
     return (
         <>
-            <div className='bg-black text-white font-space border-[#212121] '>
-                <div className='bg-black text-white w-full h-[612px] p-5 my-auto'>
+            <div className='bg-black text-white font-space border-[#212121] h-fit min-h-screen '>
+                <div className='bg-black text-white w-full h-screen p-5 my-auto'>
                     <div className='w-2/5 mx-auto h-[440px] mt-5 p-4 border-[#212121] rounded-lg border-2'>
                         <div className='w-full text-center'>
                             <FaUserLock className="w-full text-[#CCFF33] text-5xl cursor-pointer mb-1 " />

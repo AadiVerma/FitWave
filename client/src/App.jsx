@@ -11,8 +11,18 @@ import { GrYoga } from "react-icons/gr";
 import Calendar from "./components/StreakCalendar";
 import image from '/Image.png'
 import './App.css';
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { authselector } from "./redux/slices/slice";
+import { useNavigate } from "react-router-dom";
 function App() {
-
+  const state=useSelector(authselector);
+  const navigate=useNavigate();
+  useEffect(()=>{
+    if(!state){
+      navigate("/login");
+    }
+  },[])
   return (
     <div className='text-xl text-[#CCFF33] min-h-[100%] h-fit bg-black flex font-space custom-scrollbar'>
       <div className="w-full flex flex-col">

@@ -14,6 +14,7 @@ import dbURI from "./config/envConfig.js"
 // import otpsending from './validations/emailvalidations.js'
 // import verifyotp from './validations/verifyotp.js'
 import router from './routes/userRoutes.js';
+import router1 from './routes/aiRoute.js'
 import sessionConfig from './config/sessionConfig.js';
 import cors from "cors"; 
 DBConnect(dbURI.dbURI);
@@ -36,7 +37,7 @@ app.use(express.json());
 // })
 app.use(sessionConfig);
 app.use(cors({
-    origin:"http://localhost:5173",
+    origin:"http://localhost:5173", 
     credentials:true
 }));
 // app.get('/', (req, res) => {
@@ -45,6 +46,7 @@ app.use(cors({
 // app.use('/email', otpsending);
 // app.use('/verifyotp', verifyotp);
 app.use('/user',router);  
+app.use('/api',router1);
 
 // app.post('/users', async (req, res) => {
 //     await loginUser.signupUser(req, res);

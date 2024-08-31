@@ -3,8 +3,10 @@ import { useState } from 'react';
 import {MdVerifiedUser} from 'react-icons/md';
 import '../App.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useLocation} from 'react-router-dom';
 export default function VerificationPwd() {
+    const location=useLocation();
+    const {email}=location.state;
     const [otp, setOtp] = useState(new Array(6).fill(""));
     const navigate = useNavigate();
     const handleChange = (element, index) => {
@@ -33,7 +35,7 @@ export default function VerificationPwd() {
                 if (response.status != 200) {
                     throw new Error("OTP is Incorrect", response.status);
                 }
-                else navigate("/login");
+                else navigate("/passwordChange",{state:{email}});
             } catch (error) {
                 console.log("error", error)
             }
@@ -49,7 +51,7 @@ export default function VerificationPwd() {
     };
     return (
         <>
-            <div className='bg-black text-white font-space border-[#212121] '>
+            <div className='bg-black text-white font-space border-[#212121] min-h-screen h-fit'>
                 <div className='bg-black text-white w-full h-[612px] p-5 my-auto'>
                     <div className='w-2/5 mx-auto h-[440px] mt-5 p-4 border-[#212121] rounded-lg border-2'>
                         <div className='w-full text-center'>

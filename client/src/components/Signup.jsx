@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { MdOutlineFitnessCenter } from "react-icons/md";
 import { GoogleLogin } from 'react-google-login';
@@ -25,7 +24,7 @@ export default function Login() {
                 withCredentials:true
             });
             console.log("Login successful:", response.data);
-            navigate('/');
+            navigate('/profile',{state:{email}});
         } catch (error) {
             console.error("Login failed:", error.response?.data || error.message);
         }
@@ -39,9 +38,9 @@ export default function Login() {
     };
 
     return (
-        <div className='custom-scrollbar min-h-[100%] h-fit'>
+        <div className='custom-scrollbar min-h-screen  h-fit'>
             <div className='bg-black text-white font-space border-[#212121] '>
-                <div className='bg-black text-white w-full h-[612px] p-5 my-auto'>
+                <div className='bg-black text-white w-full h-screen p-5 my-auto'>
                     <form className='w-2/5 mx-auto h-[530px] mt-5 p-4 border-[#212121] rounded-lg border-2' onSubmit={handleSubmit(onSubmit)}>
                         <div className='w-full text-center'>
                             <MdOutlineFitnessCenter className="w-full text-[#CCFF33] text-6xl transform -rotate-45 cursor-pointer" />

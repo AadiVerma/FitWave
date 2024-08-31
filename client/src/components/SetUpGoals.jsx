@@ -1,6 +1,16 @@
-import { useState } from "react"
+import {useEffect, useState } from "react"
 import '../App.css';
+import { useSelector } from "react-redux";
+import { authselector } from "../redux/slices/slice";
+import { useNavigate } from "react-router-dom";
 export default function SetUpGoals() {
+    const state=useSelector(authselector);
+    const navigate=useNavigate();
+    useEffect(()=>{
+      if(!state){
+        navigate("/login");
+      }
+    },[])
     const [data, setData] = useState([]);
     const [value, setValue] = useState("");
     const [color, setColor] = useState("");

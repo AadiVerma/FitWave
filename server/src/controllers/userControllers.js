@@ -3,7 +3,8 @@ import User from '../models/userModel.js';
 import generateOTP from '../utils/generateOTP.js';
 import sendOTP from '../services/sendOTP.js';
 import jwt from 'jsonwebtoken';
-import JWTSECRET from '../config/envConfig.js'
+import JWTSECRET from '../config/envConfig.js';
+// import { uploadImage } from '../services/Cloudinary.js';
 const forgotvalidation = z.object({
     username: z.string().min(3).max(20),
     email: z.string().email()
@@ -17,6 +18,19 @@ const signupValidate = z.object({
     email: z.string().email(),
     password: z.string().min(3).max(20),
 });
+const validateProfile = z.object({
+    height: z.number().min(0, "Height must be a positive number."),
+    weight: z.number().min(0, "Weight must be a positive number."),
+    age: z.number().int().min(0, "Age must be a positive integer."),
+    gender: z.enum(["Male", "Female", "Others"]),
+    image: z.string(),
+    email: z.string().email()
+});
+const validatepassword = z.object({
+    email: z.string().email(),
+    password: z.string().min(8).max(100),
+    confirm: z.string().min(8).max(100)
+})
 function storeotp(req, otp) {
     req.session.otp = otp;
     req.session.otpExpiresAt = Date.now() + 5 * 60 * 1000;
@@ -84,7 +98,7 @@ export async function SignUp(req, res) {
         return res.status(500).json({ error: error.message });
     }
 }
-export async function  Login(req, res){
+export async function Login(req, res) {
     const loginvalidation = loginvalid.safeParse(req.body);
     if (!loginvalidation.success) {
         return res.status(400).json({ error: "Invalid input" });
@@ -103,5 +117,50 @@ export async function  Login(req, res){
         return res.status(200).json({ message: "Login successful", token });
     } catch (error) {
         return res.status(500).json({ error: error.message });
+    }
+}
+
+export async function ChangePassword(req, res) {
+    const validate = validatepassword.safeParse(req.body);
+    if (!validate) {
+        return res.status(400).json({ error: "Invalid input" });
+    }
+    try {
+
+        const { email, password, confirm } = req.body;
+        const user = await User.findOne({ email: email });
+        user.password = password
+        await user.save();
+        return res.status(200).json({ "msg": "Saved successfully" });
+    } catch (error) {
+        return res.status(500).json({ msg: error.message });
+    }
+}
+export async function Profile(req, res) {
+    const validate = validateProfile.safeParse(req.body);
+    if (!validate.success) {
+        return res.status(400).json({ error: "Invalid input" });
+    }
+    try {
+        const email = req.body.email;
+        const { height, weight, age, gender, image } = req.body;
+        try {
+            const user = await User.findOne({ email: email });
+            if (!user) {
+                return res.status(400).send({ error: "User does not exist" });
+            }
+            user.height = height;
+            user.weight = weight;
+            user.age = age;
+            user.gender = gender;
+            user.ProfilePic = image;
+            await user.save();
+        } catch (error) {
+            return res.status(401).send({ error: "Invalid Token" });
+        }
+        console.log(req.body);
+        return res.status(200).send("success");
+    } catch (error) {
+        return res.status(400).send(error);
     }
 }
