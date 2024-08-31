@@ -8,12 +8,17 @@ import Image2 from "/Barbell.png"
 import Image3 from '/Protien.png'
 import Image4 from '/Creatine.png'
 import Image5 from '/PunchingBag.png'
+import toast,{Toaster} from 'react-hot-toast';
 import Image6 from '/Treadmill.png'
 import '../App.css'
+import { useSelector } from "react-redux";
+import { authselector } from "../redux/slices/slice";
 export default function Shop() {
+    const auth=useSelector(authselector);
     const navigate = useNavigate();
     return (
         <div className="bg-black min-h-screen text-white font-space custom-scrollbar">
+            <Toaster/>
             <div className='flex justify-between p-6 pr-10'>
                 <h1 className='text-3xl'>
                     <div className='flex gap-4'>
@@ -31,8 +36,17 @@ export default function Shop() {
                         navigate("/classes")
                     }}>CLASSES</h1>
                     <h1 className='hover:text-[#CCFF33]' onClick={() => {
-                        navigate("/dashboard")
-                    }}>DASHBOARD</h1>
+                        auth?navigate("/dashboard"):toast('LogIn First!',
+                            {
+                              icon: '☠️',
+                              style: {
+                                borderRadius: '10px',
+                                background: '#333',
+                                color: '#fff',
+                              },
+                            }
+                          );  
+                        }}>DASHBOARD</h1>
                 </div>
                 <div className="flex justify-center gap-4">
                 <FaRegHeart className="text-2xl mt-1 text-[#CCFF33] cursor-pointer"/>

@@ -13,24 +13,33 @@ import Shop from './components/Shop.jsx';
 import ForgotPwd from './components/ForgotPwd.jsx';
 import VerificationPwd from './components/VerificationPwd.jsx';
 import TodoList from './components/TodoList.jsx';
-
+import { Provider } from 'react-redux';
+import { store } from './redux/store.js'
+import Aigenerated from './components/AIgenerated.jsx';
+import PassWordChange from './components/PasswordChange.jsx';
+import Profile from './components/Profile.jsx';
 createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
-    <Routes>
-    <Route path='/' element={<HomePage />} /> 
-    <Route path="/" element={<Layout />}>
-      <Route path='/dashboard' element={<App />} /> 
-      <Route path='/goals' element={<SetUpGoals />} /> 
-      <Route path='/login' element={<Login/>}/>
-      <Route path='/signup' element={<Signup/>}/>
-      <Route path='/forgotpwd' element={<ForgotPwd/>}/>
-      <Route path='/verification' element={<VerificationPwd/>}/>
-      <Route path='/todo' element={<TodoList/>}/>
-      <Route path='/classes' element={<ClassesUi/>}/>
-      </Route>
-      <Route path='/shop' element={<Shop/>}/>
-      <Route path='/*' element={<NotFound />} /> 
+  <Provider store={store}>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+        <Route path="/" element={<Layout />}>
+          <Route path='/dashboard' element={<App />} />
+          <Route path='/goals' element={<SetUpGoals />} />
+          <Route path='/aigoal' element={<Aigenerated />} />
+          <Route path='/classes' element={<ClassesUi />} />
+        </Route>
+        <Route path='/shop' element={<Shop />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/forgotpwd' element={<ForgotPwd />} />
+        <Route path='/verification' element={<VerificationPwd />} />
+        <Route path='/todo' element={<TodoList />} />
+        <Route path='/passwordChange' element={<PassWordChange />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/*' element={<NotFound />} />
       </Routes>
 
-  </BrowserRouter>,
+    </BrowserRouter>
+  </Provider>
 ) 
