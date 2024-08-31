@@ -11,7 +11,11 @@ import { GrYoga } from "react-icons/gr";
 import Calendar from "./components/StreakCalendar";
 import image from '/Image.png'
 import './App.css';
+import { useNavigate } from 'react-router-dom';
+
+
 function App() {
+  const navigate = useNavigate();
 
   return (
     <div className='text-xl text-[#CCFF33] min-h-[100%] h-fit bg-black flex font-space custom-scrollbar'>
@@ -86,7 +90,9 @@ function App() {
             <div className="p-2 w-full flex justify-between">
               <h1 className="text-2xl text-white font-space font-bold m-2">Today`s Workout</h1>
               <div className="flex gap-2 m-2 text-[#8a8787] cursor-pointer">
-                <h2>View all </h2>
+                <h2 onClick={()=>{
+                            navigate("/todo");
+                            }}>View all </h2>
                 <FaAngleRight className="mt-1" />
               </div>
             </div>

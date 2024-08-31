@@ -21,6 +21,7 @@ import { SiTicktick } from "react-icons/si";
 import TrainerShowCase from './TrainerShowcase';
 import image2 from '/Image2.png'
 import OurClient from './OurClient';
+
 export default function HomePage() {
     const navigate = useNavigate();
     return (

@@ -11,7 +11,7 @@ export default function Login() {
     const navigate = useNavigate();
     const handleSubmit = async() => {
         try {
-            await axios.post('http://localhost:3000/user/forgotpwd',{
+            await axios.post('http://localhost:5173/user/forgotpwd',{
                 email:email,
                 username:username
             },{
@@ -48,7 +48,7 @@ export default function Login() {
                         }}
                             placeholder="Email" />
 
-                        <button className='bg-pink-500 hover:bg-pink-600 rounded-md mt-2 block w-full cursor-pointer text-center font-semibold p-2' onClick={handleSubmit} >Send Login Link</button>
+                        <button className='bg-pink-500 hover:bg-pink-600 rounded-md mt-2 block w-full cursor-pointer text-center font-semibold p-2' onClick={handleSubmit}>Send Login Link</button>
 
                         <div className='w-full text-sm mt-2 flex justify-center '>
                             <h3 className='cursor-pointer hover:font-semibold'>Can`t reset your password?</h3>

@@ -12,6 +12,7 @@ import ClassesUi from './components/ClassUi.jsx';
 import Shop from './components/Shop.jsx';
 import ForgotPwd from './components/ForgotPwd.jsx';
 import VerificationPwd from './components/VerificationPwd.jsx';
+import TodoList from './components/TodoList.jsx';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -24,6 +25,7 @@ createRoot(document.getElementById('root')).render(
       <Route path='/signup' element={<Signup/>}/>
       <Route path='/forgotpwd' element={<ForgotPwd/>}/>
       <Route path='/verification' element={<VerificationPwd/>}/>
+      <Route path='/todo' element={<TodoList/>}/>
       <Route path='/classes' element={<ClassesUi/>}/>
       </Route>
       <Route path='/shop' element={<Shop/>}/>
