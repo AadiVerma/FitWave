@@ -46,7 +46,7 @@ app.use(cors({
 // app.use('/email', otpsending);
 // app.use('/verifyotp', verifyotp);
 app.use('/user',router);  
-app.use('/api',router1);
+app.use('/api',router1); 
 
 // app.post('/users', async (req, res) => {
 //     await loginUser.signupUser(req, res);

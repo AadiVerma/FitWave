@@ -4,11 +4,15 @@ import { generateDate, months } from "./util/calendar";
 import cn from "./util/cn";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { SiTicktick } from "react-icons/si";
-
-export default function Calendar() {
+import PropTypes from 'prop-types'; 
+export default function Calendar({daysActive}) {
     const days = ["S", "M", "T", "W", "T", "F", "S"];
     const currentDate = dayjs();
     const [today, setToday] = useState(currentDate);
+    // console.log(daysActive.data[0].getFullYear(),daysActive.data[0].getMonth(),daysActive.data[0].getDate());
+    const yeardata=daysActive?.data[0];
+    const dateObj = new Date(yeardata);
+    console.log(dateObj     .getFullYear())
     const tasks = {
         "2024-08-10": true,
         "2024-08-12": true,
@@ -93,4 +97,7 @@ export default function Calendar() {
             </div>
         </div>
     );
+}
+Calendar.propTypes = {
+  daysActive:PropTypes.any
 }

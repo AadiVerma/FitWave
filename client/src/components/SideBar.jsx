@@ -6,8 +6,12 @@ import { MdOutlinePerson } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import { LuHome } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { removecookie } from "../redux/slices/slice";
+import Cookies from "js-cookie";
 export default function SideBar() {
     const navigate=useNavigate();
+    const dispatch=useDispatch();
     return (
         <div className="w-[7%] bg-transparent grid grid-cols-1 place-items-center min-h-screen">
             <div className="cursor-pointer" onClick={()=>{
@@ -16,10 +20,14 @@ export default function SideBar() {
                 <FaDumbbell className="text-5xl text-[#CCFF33] mt-[-50%]" />
             </div>
             <div>
-                <div className="text-3xl text-white p-2 hover:text-[#CCFF33] hover:bg-black cursor-pointer rounded-lg">
+                <div className="text-3xl text-white p-2 hover:text-[#CCFF33] hover:bg-black cursor-pointer rounded-lg" onClick={()=>{
+                    navigate("/")
+                }}>
                     <LuHome/>
                 </div>
-                <div className=" mt-[50%] text-3xl text-white  p-2 hover:text-[#CCFF33] hover:bg-black cursor-pointer rounded-lg">
+                <div className=" mt-[50%] text-3xl text-white  p-2 hover:text-[#CCFF33] hover:bg-black cursor-pointer rounded-lg" onClick={()=>{
+                    navigate("/dashboard")
+                }}>
                     <IoAnalyticsOutline />
                 </div>
                 <div className=" mt-[50%] text-3xl text-white  p-2 hover:text-[#CCFF33] hover:bg-black cursor-pointer rounded-lg">
@@ -32,7 +40,11 @@ export default function SideBar() {
                     < MdOutlinePerson />
                 </div>
             </div>
-            <div className="text-3xl text-white  p-2 hover:text-[#CCFF33] hover:bg-black cursor-pointer rounded-lg">
+            <div className="text-3xl text-white  p-2 hover:text-[#CCFF33] hover:bg-black cursor-pointer rounded-lg" onClick={()=>{
+                dispatch(removecookie());
+                Cookies.remove("JWTTOKEN");
+                navigate("/login")
+            }}>
                 <FiLogOut />
             </div>
 

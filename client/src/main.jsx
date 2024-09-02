@@ -18,6 +18,9 @@ import { store } from './redux/store.js'
 import Aigenerated from './components/AIgenerated.jsx';
 import PassWordChange from './components/PasswordChange.jsx';
 import Profile from './components/Profile.jsx';
+import Hard75Days from './components/75HardChallenge.jsx';
+import FatToFitChallenge from './components/FattoFit.jsx';
+import FitnessForBeginners from './components/FitnessForBeginners.jsx';
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <BrowserRouter>
@@ -28,6 +31,9 @@ createRoot(document.getElementById('root')).render(
           <Route path='/goals' element={<SetUpGoals />} />
           <Route path='/aigoal' element={<Aigenerated />} />
           <Route path='/classes' element={<ClassesUi />} />
+          <Route path="/75HardChallenge" element={<Hard75Days/>}/>
+          <Route path="/FatToFit" element={<FatToFitChallenge/>}/>
+          <Route path="/FitnessForBeginners" element={<FitnessForBeginners/>}/>
         </Route>
         <Route path='/shop' element={<Shop />} />
         <Route path='/login' element={<Login />} />
