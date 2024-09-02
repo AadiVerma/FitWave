@@ -119,7 +119,6 @@ export async function Login(req, res) {
         return res.status(500).json({ error: error.message });
     }
 }
-
 export async function ChangePassword(req, res) {
     const validate = validatepassword.safeParse(req.body);
     if (!validate) {
@@ -163,4 +162,30 @@ export async function Profile(req, res) {
     } catch (error) {
         return res.status(400).send(error);
     }
+}
+export async function dayActive(req,res){
+    const currentDate = new Date();
+  const {username}=req.body;
+  const user=await User.findOne({username});
+  if(!user){
+    return res.status(400).send("user not found");
+  }
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth(); 
+    const currentDay = currentDate.getDate();
+    const isDateAlreadyLogged = user.daysActive.some(date => {
+        return (
+            date.getFullYear() === currentYear &&
+            date.getMonth() === currentMonth &&
+            date.getDate() === currentDay
+        );
+    });
+    console.log(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate())
+    if (!isDateAlreadyLogged) {
+        user.daysActive.push(currentDate);
+        await user.save(); 
+    }
+    
+    const days = user.daysActive;
+    return res.status(200).send(days);
 }

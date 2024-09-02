@@ -1,7 +1,9 @@
 import {configureStore} from '@reduxjs/toolkit';
-import authreducer from './slices/slice.js'
+import authSliceReducer from './slices/slice.js'
+import streakSliceReducer from './slices/streakSlice.js';
 export const store=configureStore({
     reducer:{
-        Auth:authreducer
+        Auth:authSliceReducer,
+        Streak:streakSliceReducer
     }
 })

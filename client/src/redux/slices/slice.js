@@ -15,6 +15,9 @@ const authSlice = createSlice({
         }
     }
 })
+
+// auth
 export const authselector= (state) => state.Auth.isAuthenticated;
 export const { addcookie, removecookie } = authSlice.actions;
 export default authSlice.reducer;
+

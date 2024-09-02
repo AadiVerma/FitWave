@@ -11,17 +11,38 @@ import { GrYoga } from "react-icons/gr";
 import Calendar from "./components/StreakCalendar";
 import image from '/Image.png'
 import './App.css';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { authselector } from "./redux/slices/slice";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 function App() {
   const state=useSelector(authselector);
   const navigate=useNavigate();
+  const [daysactive,setdayActive]=useState();
+      
+  const handleNavigateToFitnessForBeginners = () => {
+    navigate('/FitnessForBeginners');
+  };
+
+  const handleNavigateTo75HardChallenge =()=>{
+    navigate('/75HardChallenge');
+  };
+  const handleNavigateToFatToFit =()=>{
+    navigate('/FatToFit');
+  };
   useEffect(()=>{
     if(!state){
       navigate("/login");
     }
+    const fetchData=async ()=>{
+      const daysActive=await axios.post('http://localhost:3000/user/daysactice',{
+         username:"AadiVerma"
+      });
+      console.log(daysActive)
+      setdayActive(daysActive);
+    }
+    fetchData();
   },[])
   return (
     <div className='text-xl text-[#CCFF33] min-h-[100%] h-fit bg-black flex font-space custom-scrollbar'>
@@ -74,7 +95,7 @@ function App() {
             </div>
           </div>
           <div className="w-[30%] h-[30%] pt-4 pr-4 ">
-            <Calendar />
+            <Calendar daysActive={daysactive}/>
           </div>
         </div>
         {/* Section - 2 */}
@@ -149,10 +170,12 @@ function App() {
                 <div className="p-2 bg-[#CCFF33] rounded-lg">
                   <MdOutlineFitnessCenter className="text-black" />
                 </div>
+                <button onClick={handleNavigateToFitnessForBeginners} className="flex flex-row items-center justify-start w-full">
                 <div className="flex justify-between w-full cursor-pointer hover">
                   <h1 className="text-white font-space text-lg">Fitness For Beginners</h1>
                   <FaAngleRight className="mt-1 text-white" />
                 </div>
+                </button>
               </div>
             </div>
             <div className="p-4 pt-2">
@@ -160,10 +183,12 @@ function App() {
                 <div className="p-2 bg-[#45ffa6] rounded-lg">
                   <FaPersonRunning className="text-black" />
                 </div>
+                <button onClick={handleNavigateTo75HardChallenge} className="flex flex-row items-center justify-start w-full" >
                 <div className="flex justify-between w-full cursor-pointer hover">
                   <h1 className="text-white font-space text-lg">75 Hard Challenge</h1>
                   <FaAngleRight className="mt-1 text-white" />
                 </div>
+                </button>
               </div>
             </div>
             <div className="p-4 pt-2">
@@ -171,10 +196,12 @@ function App() {
                 <div className="p-2 bg-[#ee33ff] rounded-lg">
                   <GrYoga className="text-black" />
                 </div>
+                <button onClick={handleNavigateToFatToFit} className="flex flex-row items-center justify-start w-full" >
                 <div className="flex justify-between w-full cursor-pointer hover">
                   <h1 className="text-white font-space text-lg">Fat to Fit Challenge</h1>
                   <FaAngleRight className="mt-1 text-white" />
                 </div>
+                </button>
               </div>
             </div>
           </div>
