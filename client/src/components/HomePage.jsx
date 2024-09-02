@@ -29,6 +29,8 @@ import { removecookie } from '../redux/slices/slice';
 import Cookies from 'js-cookie';
 import { cardio } from 'ldrs'
 import gsap from "gsap";
+
+
 // import { useGSAP } from "@gsap/react";
 import { useEffect, useRef, useState } from 'react';
 cardio.register()

@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
-
 export default function Login() {
     const navigate = useNavigate();
 
