@@ -26,7 +26,7 @@ export default function Login(){
     const onSubmit = async (data) => {
         await toast.promise(
             delay(2).then(async () => {
-               await axios.post("http://localhost:3000/user/login", {
+               await axios.post("https://fitwave-aklx.onrender.com/user/login", {
                     username: data.username,
                     password: data.password,
                     email: data.email
