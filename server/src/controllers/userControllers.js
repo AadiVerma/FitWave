@@ -117,7 +117,7 @@ export async function Login(req, res) {
         const token = jwt.sign({ id: user._id }, JWTSECRET.JWTSECRET, { expiresIn: '1h' });
         res.cookie("JWTTOKEN", token, {
             maxAge: 24 * 60 * 60 * 1000, // 1 day
-            httpOnly: true, // Prevent access via client-side JavaScript
+            httpOnly: false, // Prevent access via client-side JavaScript
             secure: true, // Only send the cookie over HTTPS in production
             sameSite:'None' // Strict or Lax in production, Lax in development
         });
