@@ -116,29 +116,17 @@ export async function Login(req, res) {
         }
         const token = jwt.sign({ id: user._id }, JWTSECRET.JWTSECRET, { expiresIn: '1h' });
         res.cookie("JWTTOKEN", token, {
-            maxAge: 24 * 60 * 60 * 1000, // 1 day
-            domain: '.netlify.app', // Set according to your production domain
-            secure: true, // Only send over HTTPS in production
-            sameSite: 'None' ,
-            httpOnly:true,// Required for cross-site requests
-        });
-        
+            maxAge: 24 * 60 * 60 * 1000,
+            httpOnly: false,
+        })
         res.cookie("username", user.username, {
-            domain: '.netlify.app', // Set according to your production domain
-            maxAge: 24 * 60 * 60 * 1000, // 1 day
-            secure: true, // Only send over HTTPS in production
-            sameSite: 'None',
-            httpOnly:true,
+            maxAge: 24 * 60 * 60 * 1000, 
+            httpOnly: false,
         });
-        
         res.cookie("profilePic", user.ProfilePic, {
-            maxAge: 24 * 60 * 60 * 1000, // 1 day
-            domain: '.netlify.app', // Set according to your production domain
-            secure: true, // Only send over HTTPS in production
-            sameSite: 'None',
-            httpOnly:true, // Required for cross-site requests
+            maxAge: 24 * 60 * 60 * 1000, 
+            httpOnly: false, 
         });
-        
         return res.status(200).json({ message: "Login successful", token });
     } catch (error) {
         return res.status(500).json({ error: error.message });

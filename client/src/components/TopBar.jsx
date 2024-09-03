@@ -41,7 +41,7 @@ export default function TopBar() {
                 <div className="flex gap-4 ">
                     <div className="flex-col justify-center place-content-center">
                     <div className="h-12  w-12 rounded-full border-2 border-[#dbd9d971] bg-[#212121]">
-                        <img src={profile===undefined?profile:Noprofile} className="rounded-full" />
+                        <img src={profile===undefined?Noprofile:profile} className="rounded-full" />
                     </div>
                     </div>
                     <div className="flex-col justify-center place-content-center ">
