@@ -118,21 +118,21 @@ export async function Login(req, res) {
         res.cookie("JWTTOKEN", token, {
             maxAge: 24 * 60 * 60 * 1000, // 1 day
             httpOnly: true, // Prevent access via client-side JavaScript
-            secure: isProduction, // Only send the cookie over HTTPS in production
+            secure: true, // Only send the cookie over HTTPS in production
             sameSite:'None' // Strict or Lax in production, Lax in development
         });
         
         res.cookie("username", user.username, {
             maxAge: 24 * 60 * 60 * 1000,
             httpOnly: false, 
-            secure: isProduction, 
+            secure: true, 
             sameSite:'None'
         });
         
         res.cookie("profilePic", user.ProfilePic, {
             maxAge: 24 * 60 * 60 * 1000,
             httpOnly: false,
-            secure: isProduction,
+            secure: true,
             sameSite:'None'
         });
         return res.status(200).json({ message: "Login successful", token });
