@@ -46,7 +46,11 @@ const userSchema = mongoose.Schema({
     purchases: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Purchase'
-    }]
+    }],
+    OTP:{
+        type:Number,
+        default:null
+    }
 },
     {
         timestamps: true

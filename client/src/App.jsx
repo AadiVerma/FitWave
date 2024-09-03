@@ -11,15 +11,13 @@ import { GrYoga } from "react-icons/gr";
 import Calendar from "./components/StreakCalendar";
 import image from '/Image.png'
 import './App.css';
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useSelector } from "react-redux";
 import { authselector } from "./redux/slices/slice";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
 function App() {
   const state=useSelector(authselector);
   const navigate=useNavigate();
-  const [daysactive,setdayActive]=useState();
       
   const handleNavigateToFitnessForBeginners = () => {
     navigate('/FitnessForBeginners');
@@ -35,14 +33,6 @@ function App() {
     if(!state){
       navigate("/login");
     }
-    const fetchData=async ()=>{
-      const daysActive=await axios.post('http://localhost:3000/user/daysactice',{
-         username:"AadiVerma"
-      });
-      console.log(daysActive)
-      setdayActive(daysActive);
-    }
-    fetchData();
   },[])
   return (
     <div className='text-xl text-[#CCFF33] min-h-[100%] h-fit bg-black flex font-space custom-scrollbar'>
@@ -95,7 +85,7 @@ function App() {
             </div>
           </div>
           <div className="w-[30%] h-[30%] pt-4 pr-4 ">
-            <Calendar daysActive={daysactive}/>
+            <Calendar />
           </div>
         </div>
         {/* Section - 2 */}

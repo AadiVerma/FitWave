@@ -1,8 +1,9 @@
 import { IoSearchOutline } from "react-icons/io5";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { MdArrowDropDown } from "react-icons/md";
-import image from '/Image.png';
 import { useEffect, useState } from "react";
+import Cookies from 'js-cookie';
+import Noprofile from '/Noprofile.jpg';
 export default function TopBar() {
     const [current,setcurrent]=useState();
     useEffect(()=>{
@@ -16,6 +17,8 @@ export default function TopBar() {
             setcurrent('Evening');
         } 
     },[])
+    const username=Cookies.get("username");
+    const profile=Cookies.get("profilePic");
     return (
         <div className="flex bg-black h-fit  justify-evenly ">
             <div className="text-white w-full mt-3 ml-6">
@@ -38,12 +41,12 @@ export default function TopBar() {
                 <div className="flex gap-4 ">
                     <div className="flex-col justify-center place-content-center">
                     <div className="h-12  w-12 rounded-full border-2 border-[#dbd9d971] bg-[#212121]">
-                        <img src={image} className="" />
+                        <img src={profile===undefined?profile:Noprofile} className="rounded-full" />
                     </div>
                     </div>
                     <div className="flex-col justify-center place-content-center ">
                         <div className="flex cursor-pointer">
-                            <h1 className="text-white text-sm font-space font-bold">Aditya Verma</h1>
+                            <h1 className="text-white text-sm font-space font-bold">{username}</h1>
                             <div className="flex-col text-white justify-center place-content-center cursor-pointer">
                                 <MdArrowDropDown />
                             </div>
