@@ -119,21 +119,24 @@ export async function Login(req, res) {
             maxAge: 24 * 60 * 60 * 1000, // 1 day
             domain: '.netlify.app', // Set according to your production domain
             secure: true, // Only send over HTTPS in production
-            sameSite: 'None' // Required for cross-site requests
+            sameSite: 'None' ,
+            httpOnly:true,// Required for cross-site requests
         });
         
         res.cookie("username", user.username, {
             domain: '.netlify.app', // Set according to your production domain
             maxAge: 24 * 60 * 60 * 1000, // 1 day
             secure: true, // Only send over HTTPS in production
-            sameSite: 'None' // Required for cross-site requests
+            sameSite: 'None',
+            httpOnly:true,
         });
         
         res.cookie("profilePic", user.ProfilePic, {
             maxAge: 24 * 60 * 60 * 1000, // 1 day
             domain: '.netlify.app', // Set according to your production domain
             secure: true, // Only send over HTTPS in production
-            sameSite: 'None' // Required for cross-site requests
+            sameSite: 'None',
+            httpOnly:true, // Required for cross-site requests
         });
         
         return res.status(200).json({ message: "Login successful", token });
