@@ -108,7 +108,7 @@ export default function Aigenerated() {
             }
             while (!isDataValid) {
                 await delay(Math.random() * 1000 + 1000);
-                data1 = await axios.post('http://localhost:3000/api/ai',{
+                data1 = await axios.post('https://fitwave-s8c9.onrender.com/api/ai',{
                     height:height,
                     weight:weight,
                     goal: goal,

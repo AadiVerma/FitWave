@@ -16,7 +16,7 @@ export default function Login() {
             const email=formData.email;
             const password=formData.password;
             console.log(username, email, password);
-            const response = await axios.post('http://localhost:3000/user/signup', {
+            const response = await axios.post('https://fitwave-s8c9.onrender.com/user/signup', {
                 username:username,
                 email:email,
                 password:password

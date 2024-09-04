@@ -61,7 +61,7 @@ export default function Profile() {
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/user/profile', {
+            const response = await axios.post('https://fitwave-s8c9.onrender.com/user/profile', {
                 height: parseFloat(formData.get('height')),
                 weight: parseFloat(formData.get('weight')),
                 age: parseInt(formData.get('age')),

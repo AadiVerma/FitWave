@@ -27,7 +27,7 @@ export default function VerificationPwd() {
             setOtp(new Array(6).fill(""));
             const data = parseInt(stringdata);
             try {
-                const response = await axios.post('http://localhost:3000/user/verifyotp', {
+                const response = await axios.post('https://fitwave-s8c9.onrender.com/user/verifyotp', {
                     otp: data,
                     email:email
                 }, {

@@ -15,7 +15,7 @@ export default function PassWordChange() {
         }
         else{
             try {
-                await axios.post("http://localhost:3000/user/changepassword",{
+                await axios.post("https://fitwave-s8c9.onrender.com/user/changepassword",{
                     email:email,
                     password:data.password,
                     confirm:data.Confirmpassword

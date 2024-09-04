@@ -26,7 +26,7 @@ export default function Login(){
     const onSubmit = async (data) => {
         await toast.promise(
             delay(2).then(async () => {
-               const response=await axios.post("http://localhost:3000/user/login", {
+               const response=await axios.post("https://fitwave-s8c9.onrender.com/user/login", {
                     username: data.username,
                     password: data.password,
                     email: data.email
@@ -34,6 +34,8 @@ export default function Login(){
                     withCredentials: true,
                 });
                 localStorage.setItem("token",response.data.token);
+                localStorage.setItem("username",response.data.username);
+                localStorage.setItem("profilePic",response.data.profilePic);
                 dispatch(addcookie(true));
                 navigate("/");
             }),

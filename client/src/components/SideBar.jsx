@@ -42,6 +42,8 @@ export default function SideBar() {
             <div className="text-3xl text-white  p-2 hover:text-[#CCFF33] hover:bg-black cursor-pointer rounded-lg" onClick={()=>{
                 dispatch(removecookie());
                 localStorage.removeItem("token");
+                localStorage.removeItem("profilePic");
+                localStorage.removeItem("username");
                 navigate("/login")
             }}>
                 <FiLogOut />

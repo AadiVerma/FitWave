@@ -368,7 +368,9 @@ export default function HomePage() {
                     </div> : <div ref={navlogin} className='flex gap-4'>
                         <button className='border-2 border-[#CCFF33] bg-[#CCFF33] p-2 pl-6 pr-6 rounded hover:bg-[black] hover:text-white text-black font-bold' onClick={async () => {
                             dispatch(removecookie());
-                            localStorage.remove("token")
+                            localStorage.removeItem("token")
+                            localStorage.removeItem("username")
+                            localStorage.removeItem("profilePic")
                             toast('LogOut Successfully!',
                                 {
                                     icon: '☠️',
