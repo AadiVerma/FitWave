@@ -26,13 +26,14 @@ export default function Login(){
     const onSubmit = async (data) => {
         await toast.promise(
             delay(2).then(async () => {
-               await axios.post("http://localhost:3000/user/login", {
+               const response=await axios.post("http://localhost:3000/user/login", {
                     username: data.username,
                     password: data.password,
                     email: data.email
                 }, {
                     withCredentials: true,
                 });
+                localStorage.setItem("token",response.data.token);
                 dispatch(addcookie(true));
                 navigate("/");
             }),

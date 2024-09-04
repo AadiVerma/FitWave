@@ -1,6 +1,5 @@
-import Cookies from 'js-cookie';
 export const getTokenFromCookies = () => {
-    const cookies = Cookies.get("JWTTOKEN");
+    const cookies = localStorage.getItem("token");
     if (cookies) {
         return true;
     }

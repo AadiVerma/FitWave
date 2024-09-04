@@ -2,7 +2,6 @@ import { IoSearchOutline } from "react-icons/io5";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { MdArrowDropDown } from "react-icons/md";
 import { useEffect, useState } from "react";
-import Cookies from 'js-cookie';
 import Noprofile from '/Noprofile.jpg';
 export default function TopBar() {
     const [current,setcurrent]=useState();
@@ -17,8 +16,8 @@ export default function TopBar() {
             setcurrent('Evening');
         } 
     },[])
-    const username=Cookies.get("username");
-    const profile=Cookies.get("profilePic");
+    const username=localStorage.getItem("username");
+    const profile=localStorage.getItem("profilePic");
     return (
         <div className="flex bg-black h-fit  justify-evenly ">
             <div className="text-white w-full mt-3 ml-6">

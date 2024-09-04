@@ -115,20 +115,20 @@ export async function Login(req, res) {
             return res.status(401).json({ error: "Invalid username or password" });
         }
         const token = jwt.sign({ id: user._id }, JWTSECRET.JWTSECRET, { expiresIn: '1h' });
-        res.cookie("JWTTOKEN", token, {
-            maxAge: 24 * 60 * 60 * 1000,
-            httpOnly: false,
-        })
-        res.cookie("username", user.username, {
-            maxAge: 24 * 60 * 60 * 1000, 
-            httpOnly: false,
-        });
-        res.cookie("profilePic", user.ProfilePic, {
-            maxAge: 24 * 60 * 60 * 1000, 
-            httpOnly: false, 
-        });
-        return res.status(200).json({ message: "Login successful", token });
-    } catch (error) {
+        // res.cookie("JWTTOKEN", token, {
+        //     maxAge: 24 * 60 * 60 * 1000,
+        //     httpOnly: false,
+        // })
+        // res.cookie("username", user.username, {
+        //     maxAge: 24 * 60 * 60 * 1000, 
+        //     httpOnly: false,
+        // });
+        // res.cookie("profilePic", user.ProfilePic, {
+        //     maxAge: 24 * 60 * 60 * 1000, 
+        //     httpOnly: false, 
+        // });
+        return res.status(200).json({ message: "Login successful", token:token,username:user.username,profilePic:user.ProfilePic });
+    } catch (error) { 
         return res.status(500).json({ error: error.message });
     }
 }

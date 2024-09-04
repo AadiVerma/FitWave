@@ -103,7 +103,11 @@ export default function Aigenerated() {
             let structuredPlan;
             let isDataValid = false;
             setLoader(true);
+            function delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
             while (!isDataValid) {
+                await delay(Math.random() * 1000 + 1000);
                 data1 = await axios.post('http://localhost:3000/api/ai',{
                     height:height,
                     weight:weight,
