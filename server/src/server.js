@@ -37,7 +37,7 @@ app.use(express.json());
 // })
 app.use(sessionConfig);
 app.use(cors({
-    origin:"fitwave-smartwave.netlify.app", 
+    origin:"https://fitwave-smartwave.netlify.app", 
     credentials:true
 }));
 // app.get('/', (req, res) => {
