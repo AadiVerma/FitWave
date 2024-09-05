@@ -4,7 +4,6 @@ import generateOTP from '../utils/generateOTP.js';
 import sendOTP from '../services/sendOTP.js';
 import jwt from 'jsonwebtoken';
 import JWTSECRET from '../config/envConfig.js';
-// import { uploadImage } from '../services/Cloudinary.js';
 const forgotvalidation = z.object({
     username: z.string().min(3).max(20),
     email: z.string().email()
@@ -31,9 +30,11 @@ const validatepassword = z.object({
     password: z.string().min(8).max(100),
     confirm: z.string().min(8).max(100)
 })
-function storeotp(req, otp) {
-    req.session.otp = otp;
-    req.session.otpExpiresAt = Date.now() + 5 * 60 * 1000;
+async function storeotp(req,otp) {
+    const {email}=req.body;
+   const user=await User.findOne({email:email});
+   user.OTP=otp;
+   await user.save();
 }
 export async function ForgotPassword(req, res) {
     const validation = forgotvalidation.safeParse(req.body);
@@ -57,11 +58,15 @@ export async function ForgotPassword(req, res) {
 }
 export async function VerifyOTP(req, res) {
     const { otp } = req.body;
+    const {email}=req.body;
     try {
         if (!otp) {
             return res.status(400).json({ error: "OTP is required" });
         }
-        if (req.session.otp == otp) {
+        const userotp=await User.findOne({email:email});
+        if (userotp.OTP == otp) {
+            userotp.OTP=null;
+            await userotp.save();
             return res.json({ msg: "OTP verified successfully" });
         }
         return res.status(400).json({ error: "error", error })
@@ -110,12 +115,20 @@ export async function Login(req, res) {
             return res.status(401).json({ error: "Invalid username or password" });
         }
         const token = jwt.sign({ id: user._id }, JWTSECRET.JWTSECRET, { expiresIn: '1h' });
-        res.cookie("JWTTOKEN", token, {
-            maxAge: 24 * 60 * 60 * 1000,
-            httpOnly: false,
-        })
-        return res.status(200).json({ message: "Login successful", token });
-    } catch (error) {
+        // res.cookie("JWTTOKEN", token, {
+        //     maxAge: 24 * 60 * 60 * 1000,
+        //     httpOnly: false,
+        // })
+        // res.cookie("username", user.username, {
+        //     maxAge: 24 * 60 * 60 * 1000, 
+        //     httpOnly: false,
+        // });
+        // res.cookie("profilePic", user.ProfilePic, {
+        //     maxAge: 24 * 60 * 60 * 1000, 
+        //     httpOnly: false, 
+        // });
+        return res.status(200).json({ message: "Login successful", token:token,username:user.username,profilePic:user.ProfilePic });
+    } catch (error) { 
         return res.status(500).json({ error: error.message });
     }
 }
@@ -180,7 +193,6 @@ export async function dayActive(req,res){
             date.getDate() === currentDay
         );
     });
-    console.log(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate())
     if (!isDateAlreadyLogged) {
         user.daysActive.push(currentDate);
         await user.save(); 

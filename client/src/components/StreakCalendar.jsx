@@ -1,23 +1,32 @@
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { generateDate, months } from "./util/calendar";
 import cn from "./util/cn";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { SiTicktick } from "react-icons/si";
 import PropTypes from 'prop-types'; 
-export default function Calendar({daysActive}) {
+import axios from 'axios';
+export default function Calendar() {
     const days = ["S", "M", "T", "W", "T", "F", "S"];
     const currentDate = dayjs();
     const [today, setToday] = useState(currentDate);
-    // console.log(daysActive.data[0].getFullYear(),daysActive.data[0].getMonth(),daysActive.data[0].getDate());
-    const yeardata=daysActive?.data[0];
-    const dateObj = new Date(yeardata);
-    console.log(dateObj     .getFullYear())
-    const tasks = {
-        "2024-08-10": true,
-        "2024-08-12": true,
-        "2024-08-15": true,
-    };
+    const [tasks, setTasks] = useState({});
+    useEffect(()=>{
+        const fetchData=async ()=>{
+            const response=await axios.post('http://localhost:3000/user/daysactice',{
+               username:"AadiVerma"
+            });
+            const daysActive = response.data;
+            const updatedTasks = {};
+                daysActive.forEach(d => {
+                    const date = new Date(d);    
+                    updatedTasks[date.toISOString().substring(0, 10)] = true;
+                });
+                setTasks(updatedTasks);
+          }
+          fetchData();
+    },[])
+     
 
     return (
         <div className="flex gap-2  justify-center mx-auto h-fit items-center text-white">
@@ -80,7 +89,7 @@ export default function Calendar({daysActive}) {
                                                 : ""
                                         )}
                                     >
-                                        {taskDone ? (
+                                        {taskDone && !isToday ? (
                                             <SiTicktick className="text-green-400 text-2xl" />
                                         ) : (
                                             date.date()

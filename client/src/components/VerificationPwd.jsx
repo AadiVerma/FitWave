@@ -28,7 +28,8 @@ export default function VerificationPwd() {
             const data = parseInt(stringdata);
             try {
                 const response = await axios.post('http://localhost:3000/user/verifyotp', {
-                    otp: data
+                    otp: data,
+                    email:email
                 }, {
                     withCredentials: true
                 });

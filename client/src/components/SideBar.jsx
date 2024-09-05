@@ -8,7 +8,6 @@ import { LuHome } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { removecookie } from "../redux/slices/slice";
-import Cookies from "js-cookie";
 export default function SideBar() {
     const navigate=useNavigate();
     const dispatch=useDispatch();
@@ -42,7 +41,9 @@ export default function SideBar() {
             </div>
             <div className="text-3xl text-white  p-2 hover:text-[#CCFF33] hover:bg-black cursor-pointer rounded-lg" onClick={()=>{
                 dispatch(removecookie());
-                Cookies.remove("JWTTOKEN");
+                localStorage.removeItem("token");
+                localStorage.removeItem("profilePic");
+                localStorage.removeItem("username");
                 navigate("/login")
             }}>
                 <FiLogOut />
