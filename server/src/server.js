@@ -17,6 +17,7 @@ import router from './routes/userRoutes.js';
 import router1 from './routes/aiRoute.js'
 import sessionConfig from './config/sessionConfig.js';
 import cors from "cors"; 
+import corsAnywhere from 'cors-anywhere';
 DBConnect(dbURI.dbURI);
 const app = express();
 
@@ -54,6 +55,16 @@ app.use('/api',router1);
 // app.get('/users', async (req, res) => {
 //     await loginUser.loginUser(req, res);
 // })
-app.listen(3000, () => {
-    console.log("listening on 3000");
-})
+
+
+// app.listen(3000, () => {
+//     console.log("listening on 3000");
+// })
+
+const host = 'localhost';
+const port = 3000;
+corsAnywhere.createServer({
+    originWhitelist: [], // Allow all origins
+  }).listen(port, host, () => {
+    console.log(`CORS Anywhere server running on http://${host}:${port}`);
+  });
