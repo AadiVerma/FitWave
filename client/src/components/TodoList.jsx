@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import CalorieCount from './CalorieCount';
+import { IoFitnessSharp } from "react-icons/io5";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -134,11 +135,14 @@ export default function Login() {
                     <div className='w-full mx-auto  p-4 border-[#212121] rounded-lg border-2'>
                     <CalorieCount/>
                         <div className=' text-center mt-24 mb-5'>
+                        <div className='flex justify-center'>
+                            <h1 className='text-red-600 text-3xl mx-3 mt-1 '><IoFitnessSharp /></h1>
                             <h1 className='text-2xl font-bold mb-2'>Add Your Fitness Plan</h1>
+                        </div>
 
                             <p className='text-lg mb-4'>Today's Date: {currentDate.toDateString()}</p>
 
-                            <input className=" ml-1 sm:w-full w-9/12 rounded-full  text-slate-600 p-1 px-3" type="text" onChange={handleOnChange} value={addTask}/>
+                            <input className=" w-full rounded-full border border-gray-400 text-black p-2 px-4 focus:outline-none focus:ring focus:border-pink-500 transition-all " type="text" onChange={handleOnChange} value={addTask}/>
                                 
                             <button onClick={handleAdd} disabled={addTask.length<=2} className=' bg-[#CCFF33] hover:bg-[#b2e31d] text-black p-3 py-1 rounded-md disabled:bg-[#c9e575] font-bold block sm:w-full w-9/12 mx-auto mt-2'>Save</button>
 
