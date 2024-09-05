@@ -26,11 +26,11 @@ export default function Login(){
     const onSubmit = async (data) => {
         await toast.promise(
             delay(2).then(async () => {
-               const response=await axios.post("https://fitwave-s8c9.onrender.com/user/login", {
+               const response=await axios.post("http://localhost:3000/user/login", {
                     username: data.username,
                     password: data.password,
                     email: data.email
-                }, {
+                }, {   
                     withCredentials: true,
                 });
                 localStorage.setItem("token",response.data.token);

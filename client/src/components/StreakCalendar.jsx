@@ -13,7 +13,7 @@ export default function Calendar() {
     const [tasks, setTasks] = useState({});
     useEffect(()=>{
         const fetchData=async ()=>{
-            const response=await axios.post('https://fitwave-s8c9.onrender.com/user/daysactice',{
+            const response=await axios.post('http://localhost:3000/user/daysactice',{
                username:"AadiVerma"
             });
             const daysActive = response.data;

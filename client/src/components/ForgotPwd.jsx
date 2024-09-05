@@ -11,7 +11,7 @@ export default function Login() {
     const navigate = useNavigate();
     const handleSubmit = async() => {
         try {
-            await axios.post('https://fitwave-s8c9.onrender.com/user/forgotpwd',{
+            await axios.post('http://localhost:3000/user/forgotpwd',{
                 email:email,
                 username:username
             },{
