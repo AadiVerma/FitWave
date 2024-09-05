@@ -34,13 +34,13 @@ createRoot(document.getElementById('root')).render(
           <Route path="/75HardChallenge" element={<Hard75Days/>}/>
           <Route path="/FatToFit" element={<FatToFitChallenge/>}/>
           <Route path="/FitnessForBeginners" element={<FitnessForBeginners/>}/>
+          <Route path='/todo' element={<TodoList />} />
         </Route>
         <Route path='/shop' element={<Shop />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/forgotpwd' element={<ForgotPwd />} />
         <Route path='/verification' element={<VerificationPwd />} />
-        <Route path='/todo' element={<TodoList />} />
         <Route path='/passwordChange' element={<PassWordChange />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/*' element={<NotFound />} />

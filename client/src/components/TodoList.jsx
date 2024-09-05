@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import CalorieCount from './CalorieCount';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -130,10 +131,10 @@ export default function Login() {
         <>
             <div className='bg-black text-white font-space border-[#212121] '>
                 <div className='bg-black text-white w-[95%] p-5 my-auto'>
-                    <div className='w-full mx-auto  mt-5 p-4 border-[#212121] rounded-lg border-2'>
-                        <div className=' text-center  mb-5'>
-                            <h1 className='text-xl font-bold text-center mb-5 '>Welcome Back!</h1>
-                            <h2 className='text-xl mb-2 font-medium'>Add your fitness plan!</h2>
+                    <div className='w-full mx-auto  p-4 border-[#212121] rounded-lg border-2'>
+                    <CalorieCount/>
+                        <div className=' text-center mt-24 mb-5'>
+                            <h1 className='text-2xl font-bold mb-2'>Add Your Fitness Plan</h1>
 
                             <p className='text-lg mb-4'>Today's Date: {currentDate.toDateString()}</p>
 
@@ -165,23 +166,17 @@ export default function Login() {
                             <div className="flex flex-wrap w-1/2">
                                 <button onClick={(event)=>handleEdit(event,item.id)} className='   bg-[#CCFF33] hover:bg-[#b2e31d] text-black p-2 py-1 rounded-md mx-2 my-1 font-bold k'><FaRegEdit /></button>
 
-                                <button onClick={(event)=>{handleDelete(event,item.id)}} className=' bg-[#CCFF33] hover:bg-[#b2e31d] text-black p-2 py-1 rounded-md mx-2 my-1 md:py-0px font-bold text-black' name={item.id}><MdDelete /></button>
-
-
-
-                                {/* <button  onClick={(event) => typeOfGoal(event, item.id, "short")} className={`${getButtonClass(item.goalType, 'short')} hover:bg-red-600 text-white px-2 rounded-md mx-2 my-1 font-bold text-black  `}>Short-Term Goal</button>
-                                <button onClick={(event) => typeOfGoal(event, item.id, "mid")} className={`${getButtonClass(item.goalType, 'mid')} hover:bg-yellow-600 text-white px-2 rounded-md mx-2 my-1 font-bold text-black `}>Mid-Term Goal</button>
-                                <button onClick={(event) => typeOfGoal(event, item.id, "long")} className={`${getButtonClass(item.goalType, 'long')} hover:bg-blue-600 text-white px-2 rounded-md mx-2 my-1 font-bold text-black `}>Long-Term Goal</button>  */}
+                                <button onClick={(event)=>{handleDelete(event,item.id)}} className=' bg-[#CCFF33] hover:bg-[#b2e31d] text-black p-2 py-1 rounded-md mx-2 my-1 md:py-0px font-bold' name={item.id}><MdDelete /></button>
                             </div>
                             </div>
                             })}
-                        
                         </div>
                     </div>
 
                     </div>
                 </div>
             </div>
+
         </>
     )
 }
