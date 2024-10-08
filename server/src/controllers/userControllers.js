@@ -94,10 +94,10 @@ export async function SignUp(req, res) {
         })
         await newuser.save();
         const token = jwt.sign({ id: newuser._id }, JWTSECRET.JWTSECRET, { expiresIn: '1h' });
-        res.cookie("JWTTOKEN", token, {
-            maxAge: 24 * 60 * 60 * 1000,
-            httpOnly: true,
-        })
+        // res.cookie("JWTTOKEN", token, {
+        //     maxAge: 24 * 60 * 60 * 1000,
+        //     httpOnly: true,
+        // })
         return res.status(200).json({ message: "SignUp successful", token });
     } catch (error) {
         return res.status(500).json({ error: error.message });

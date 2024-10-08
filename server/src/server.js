@@ -38,11 +38,12 @@ app.use(express.json());
 // })
 app.use(sessionConfig);
 app.use(cors({
-    origin:"http://localhost:5173", 
+    origin:"https://fitwave-smartwave.netlify.app/", 
     credentials:true
 }));
 // app.get('/', (req, res) => {
 //     res.json({ msg: "Hello World" });
+
 // })
 // app.use('/email', otpsending);
 // app.use('/verifyotp', verifyotp);
@@ -57,14 +58,14 @@ app.use('/api',router1);
 // })
 
 
-// app.listen(3000, () => {
-//     console.log("listening on 3000");
-// })
+app.listen(3000, () => {
+    console.log("listening on 3000");
+})
 
-const host = 'localhost';
-const port = 3000;
-corsAnywhere.createServer({
-    originWhitelist: [], // Allow all origins
-  }).listen(port, host, () => {
-    console.log(`CORS Anywhere server running on http://${host}:${port}`);
-  });
+// const host = 'localhost';
+// const port = 3000;
+// corsAnywhere.createServer({
+//     originWhitelist: [], // Allow all origins
+//   }).listen(port, host, () => {
+//     console.log(`CORS Anywhere server running on http://${host}:${port}`);
+//   });

@@ -70,7 +70,7 @@ async function sendOTP({ email, otp }) {
                                             <table style="font-weight: normal; border-collapse: collapse; border: 0; margin: 0; padding: 0;">
                                                 <tr>
                                                     <td class="head-title" style="color: #333; font-size: 28px; line-height: 34px; font-weight: bold; text-align: center;">
-                                                        Welcome to FitWave, Reeshab Kumar!
+                                                        Welcome to FitWave, Aditya Verma!
                                                     </td>
                                                 </tr>
                                                 <tr>

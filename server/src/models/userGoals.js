@@ -18,7 +18,7 @@ const Goal = mongoose.Schema({
         required: true
     },
 }, {
-    timestamps: true
+    timestamps: true 
 })
 const Goals = mongoose.model("Goal", Goal);
 export default Goals;

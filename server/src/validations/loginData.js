@@ -7,7 +7,7 @@ import bodyParser from 'body-parser';
 const app = express.Router();
 const port = 3000;
 
-app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors());
 app.use(bodyParser.json());
 
 app.get("/",(req,res)=>{
