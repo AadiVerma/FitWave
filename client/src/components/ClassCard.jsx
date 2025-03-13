@@ -1,9 +1,13 @@
 
 import { FaStar } from "react-icons/fa";
 import PropTypes from 'prop-types'; 
+import { useNavigate } from "react-router-dom";
 export default function Classes({ image, type, name, desc, points, count, price, lastprice }) {
+    const navigate  = useNavigate();
     return (
-        <div className='w-[25%]  border-4 border-[#363535] rounded-xl text-white font-space'>
+        <div className='w-[25%]  border-4 border-[#363535] rounded-xl text-white font-space cursor-pointer' onClick={()=>{
+            navigate(`/coursepage${image}/${type}/${name}/${desc}/${price}/${lastprice}/${count}`)
+        }}>
             <div className='relative bg-black w-[100%] h-[28vh] p-6 rounded-t-xl'>
                 <div className='absolute inset-0 left-[15%] rounded-xl'>
                     <img src={image} alt="Background" className='w-[80%] h-full object-cover' />

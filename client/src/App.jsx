@@ -11,29 +11,53 @@ import { GrYoga } from "react-icons/gr";
 import Calendar from "./components/StreakCalendar";
 import image from '/Image.png'
 import './App.css';
-import { useEffect} from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { authselector } from "./redux/slices/slice";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 function App() {
-  const state=useSelector(authselector);
-  const navigate=useNavigate();
-      
+  const state = useSelector(authselector);
+  const navigate = useNavigate();
+  const [userdata, setuserdata] = useState();
+  const [workouts, setworkouts] = useState([]);
+  const [date, setDate] = useState();
+  const Months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const [activityData, setActivityData] = useState(new Array(12).fill(0));
+  console.log(userdata);
+  useEffect(() => {
+    setworkouts(JSON.parse(localStorage.getItem("tasks")))
+    setDate(`${new Date().getDate()}` + ` ${Months[new Date().getMonth()]} ` + `${new Date().getFullYear()}`);
+    const fetch = async () => {
+      const data = await axios.get(`http://localhost:3000/user/getuserdata/${localStorage.getItem("username")}`)
+      setuserdata(data.data);
+      const activityCounts = new Array(12).fill(0);
+
+      data.data.daysActive.forEach(dateString => {
+        const date = new Date(dateString);
+        const month = date.getMonth();
+        activityCounts[month] += 1;
+      });
+
+      setActivityData(activityCounts);
+    }
+    fetch();
+  }, [])
   const handleNavigateToFitnessForBeginners = () => {
     navigate('/FitnessForBeginners');
   };
 
-  const handleNavigateTo75HardChallenge =()=>{
+  const handleNavigateTo75HardChallenge = () => {
     navigate('/75HardChallenge');
   };
-  const handleNavigateToFatToFit =()=>{
+  const handleNavigateToFatToFit = () => {
     navigate('/FatToFit');
   };
-  useEffect(()=>{
-    if(!state){
+  useEffect(() => {
+    if (!state) {
       navigate("/login");
     }
-  },[])
+  }, [])
   return (
     <div className='text-xl text-[#CCFF33] min-h-[100%] h-fit bg-black flex font-space custom-scrollbar'>
       <div className="w-full flex flex-col">
@@ -42,7 +66,7 @@ function App() {
             <div className="flex justify-between">
               <h1 className="text-2xl text-white font-space font-bold mb-4">Activity</h1>
             </div>
-            <BarChart />
+            <BarChart activityData={activityData} />
           </div>
           <div className="w-[40%] p-4 custom-scrollbar">
             <div className="flex justify-between">
@@ -93,7 +117,7 @@ function App() {
           <div className="h-fit bg-[#121212] w-[30%] rounded-xl">
             <div className="p-2 w-full flex justify-between">
               <h1 className="text-2xl text-white font-space font-bold m-2">Trainer</h1>
-              <div className="flex gap-2 m-2 text-[#8a8787] cursor-pointer">
+              <div className="flex gap-2 m-2 text-[#8a8787] cursor-pointer" onClick={() => navigate("/")}>
                 <h2>View all </h2>
                 <FaAngleRight className="mt-1" />
               </div>
@@ -103,52 +127,48 @@ function App() {
               <Trainercard color={"#45ffa6"} name={"John"} desc={"Yoga Expert"} />
             </div>
           </div>
-          <div className="h-fit bg-[#121212] w-[30%] rounded-xl">
+          <div className="h-fit bg-[#121212] min-w-[20%] rounded-xl w-fit">
             <div className="p-2 w-full flex justify-between">
               <h1 className="text-2xl text-white font-space font-bold m-2">Today`s Workout</h1>
               <div className="flex gap-2 m-2 text-[#8a8787] cursor-pointer">
-                <h2 onClick={()=>{
-                            navigate("/todo");
-                            }}>View all </h2>
+                <h2 onClick={() => {
+                  navigate("/todo");
+                }}>View all </h2>
                 <FaAngleRight className="mt-1" />
               </div>
             </div>
             <div className="flex gap-6 p-4 pt-2 ">
               <div>
                 <div className="bg-[#05924e] rounded-xl h-full p-4 flex-col justify-center place-content-center place-items-center">
-                  <IoFitness className="text-white text-5xl ml-4" />
+                  <IoFitness className="text-white text-5xl" />
                   <h1 className="text-white font-space">Workout</h1>
-                  <h1 className="text-white text-sm font-space">16 Aug 2024</h1>
+                  <h1 className="text-white text-sm font-space">{date}</h1>
                 </div>
               </div>
               <div className="rounded-r-xl">
-                <div>
-                  <div className="flex gap-4">
+                {workouts && workouts[0] ? <div className="h-10">
+                  <div className="flex gap-4 ">
                     <h1 className="h-3 w-3 rounded-full bg-[#CCFF33] mt-2"></h1>
-                    <h1 className="text-white font-space text-base">Squats</h1>
+                    <h1 className="text-white font-space text-base">{workouts[0]?.text}</h1>
                   </div>
-                  <div className="flex gap-4 justify-between pt-0 p-2 ml-4">
-                    <h1 className="text-white font-space font-medium text-sm">10 seats of squats</h1>
-                  </div>
-                </div>
-                <div>
+                </div> : <div className="text-white  text-sm flex flex-col justify-center place-items-center ml-5 mt-4 w-[100%] flex-wrap">
+                  Plan Your Daily Schedule
+                </div>}
+                {workouts && workouts[1] && <div className="h-10">
                   <div className="flex gap-4">
                     <h1 className="h-3 w-3 rounded-full bg-[#45ffa6] mt-2"></h1>
-                    <h1 className="text-white font-space text-base">Low Lung</h1>
+                    <h1 className="text-white font-space text-base">{workouts[1]?.text}</h1>
                   </div>
-                  <div className="flex gap-4 justify-between pt-0 p-2 ml-4">
-                    <h1 className="text-white font-space font-medium text-sm">25 seats of lings</h1>
-                  </div>
-                </div>
-                <div>
+                </div>}
+                {workouts && workouts[2] && <div>
                   <div className="flex gap-4">
                     <h1 className="h-3 w-3 rounded-full bg-[#ee33ff] mt-2"></h1>
-                    <h1 className="text-white font-space text-base">Batting rope</h1>
+                    <h1 className="text-white font-space text-base">{workouts[2]?.text}</h1>
                   </div>
-                  <div className="flex gap-4 justify-between pt-0 p-2 ml-4">
-                    <h1 className="text-white font-space font-medium text-sm">20 seats of batting</h1>
 
-                  </div>
+                </div>}
+                <div className="flex  justify-center mt-2">
+                  <button className="text-sm border-2 rounded-md border-[#05924e] bg-[#05924e] text-white pl-2 pr-2 " onClick={() => navigate("/todo")}>Create More</button>
                 </div>
               </div>
             </div>
@@ -163,10 +183,10 @@ function App() {
                   <MdOutlineFitnessCenter className="text-black" />
                 </div>
                 <button onClick={handleNavigateToFitnessForBeginners} className="flex flex-row items-center justify-start w-full">
-                <div className="flex justify-between w-full cursor-pointer hover">
-                  <h1 className="text-white font-space text-lg">Fitness For Beginners</h1>
-                  <FaAngleRight className="mt-1 text-white" />
-                </div>
+                  <div className="flex justify-between w-full cursor-pointer hover">
+                    <h1 className="text-white font-space text-lg">Fitness For Beginners</h1>
+                    <FaAngleRight className="mt-1 text-white" />
+                  </div>
                 </button>
               </div>
             </div>
@@ -176,10 +196,10 @@ function App() {
                   <FaPersonRunning className="text-black" />
                 </div>
                 <button onClick={handleNavigateTo75HardChallenge} className="flex flex-row items-center justify-start w-full" >
-                <div className="flex justify-between w-full cursor-pointer hover">
-                  <h1 className="text-white font-space text-lg">75 Hard Challenge</h1>
-                  <FaAngleRight className="mt-1 text-white" />
-                </div>
+                  <div className="flex justify-between w-full cursor-pointer hover">
+                    <h1 className="text-white font-space text-lg">75 Hard Challenge</h1>
+                    <FaAngleRight className="mt-1 text-white" />
+                  </div>
                 </button>
               </div>
             </div>
@@ -189,10 +209,10 @@ function App() {
                   <GrYoga className="text-black" />
                 </div>
                 <button onClick={handleNavigateToFatToFit} className="flex flex-row items-center justify-start w-full" >
-                <div className="flex justify-between w-full cursor-pointer hover">
-                  <h1 className="text-white font-space text-lg">Fat to Fit Challenge</h1>
-                  <FaAngleRight className="mt-1 text-white" />
-                </div>
+                  <div className="flex justify-between w-full cursor-pointer hover">
+                    <h1 className="text-white font-space text-lg">Fat to Fit Challenge</h1>
+                    <FaAngleRight className="mt-1 text-white" />
+                  </div>
                 </button>
               </div>
             </div>

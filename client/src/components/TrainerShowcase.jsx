@@ -2,9 +2,13 @@ import { FaFacebookF } from "react-icons/fa6";
 import { AiFillInstagram } from "react-icons/ai";
 import { FaXTwitter } from "react-icons/fa6";
 import PropTypes from 'prop-types'; 
-export default function TrainerShowCase({image}){
+import { useNavigate } from "react-router-dom";
+export default function TrainerShowCase({image,name}){
+    const navigate = useNavigate();
     return (
-        <div className='w-[20%]  border-4 border-[#363535] rounded-xl'>
+        <div className='w-[20%]  border-4 border-[#363535] rounded-xl cursor-pointer' onClick={()=>{
+            navigate(`trainer${image}/${name}`)
+        }}>
            <div className='relative bg-black w-full h-[40vh] p-6 rounded-xl'>
                 <div className='absolute inset-0 left-[10%] rounded-xl'>
                     <img src={image} alt="Background" className='w-full h-full object-cover'/>
@@ -19,5 +23,6 @@ export default function TrainerShowCase({image}){
     )
 }
 TrainerShowCase.propTypes = {
-    image: PropTypes.any.isRequired
+    image: PropTypes.any.isRequired,
+    name: PropTypes.string.isRequired
 };

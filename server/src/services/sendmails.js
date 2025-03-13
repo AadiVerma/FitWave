@@ -7,149 +7,83 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-async function sendEmail() {
+async function sendEmail({ email}) {
+    console.log(email);
     try {
         const info = await transporter.sendMail({
             from: '"FitWave" <adityaverma9907@gmail.com>',
-            to: "aditya1203.be22@chitkara.edu.in,aashi1123.be22@chitkara.edu.in,abhima1151.be22@chitkara.edu.in,adarsh1177.be22@chitkara.edu.in",
-            subject: "Welcome to FitWave!",
-            text: "Welcome to FitWave!",
+            to: `${email}`,
+            subject: "Welcome to FitWave",
+            text: "Welcome to FitWave! We're glad to have you onboard.",
             html: `
             <html>
                 <head>
                     <style>
-                        @media only screen and (max-width: 600px) {
-                            .main {
-                                width: 320px !important;
-                            }
-                            .top-image {
-                                width: 100% !important;
-                            }
-                            .inside-footer {
-                                width: 320px !important;
-                            }
-                            table.contenttable {
-                                width: 320px !important;
-                                text-align: left !important;
-                            }
-                            td.force-col {
-                                display: block !important;
-                            }
-                            td.rm-col {
-                                display: none !important;
-                            }
-                            .mt {
-                                margin-top: 15px !important;
-                            }
-                            *[class].width300 { 
-                                width: 255px !important; 
-                            }
-                            *[class].block { 
-                                display: block !important; 
-                            }
-                            *[class].blockcol { 
-                                display: none !important; 
-                            }
-                            .emailButton {
-                                width: 100% !important;
-                            }
-                            .emailButton a {
-                                display: block !important;
-                                font-size: 18px !important;
-                            }
+                        body {
+                            font-family: Arial, sans-serif;
+                            color: #333;
+                            background-color: #f4f7fc;
+                            margin: 0;
+                            padding: 0;
+                        }
+                        .container {
+                            max-width: 600px;
+                            margin: 40px auto;
+                            padding: 20px;
+                            background-color: white;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                        }
+                        h1 {
+                            font-size: 28px;
+                            color: #333;
+                            text-align: center;
+                        }
+                        p {
+                            font-size: 16px;
+                            color: #555;
+                            line-height: 24px;
+                            text-align: center;
+                        }
+                        .button {
+                            display: block;
+                            width: 100%;
+                            max-width: 200px;
+                            margin: 20px auto;
+                            padding: 10px;
+                            background-color: #00a5b5;
+                            color: #fff;
+                            text-align: center;
+                            text-decoration: none;
+                            font-size: 16px;
+                            border-radius: 4px;
+                        }
+                        .footer {
+                            text-align: center;
+                            font-size: 12px;
+                            color: #888;
+                            margin-top: 20px;
+                        }
+                        .footer a {
+                            color: #00a5b5;
+                            text-decoration: none;
                         }
                     </style>
                 </head>
-                <body style="font-family: Arial, sans-serif; color: #555; margin: 0; padding: 0;">
-                    <table class="main contenttable" align="center" style="font-weight: normal; border-collapse: collapse; border: 0; margin-left: auto; margin-right: auto; padding: 0; font-size: 16px; line-height: 26px; width: 600px; background-color: white;">
-                        <tr>
-                            <td class="border" style="border-collapse: collapse; border: 1px solid #eeeff0; padding: 0; color: #555; font-size: 16px; line-height: 26px;">
-                                <table style="font-weight: normal; border-collapse: collapse; border: 0; margin: 0; padding: 0;">
-                                    <tr>
-                                        <td class="side title" style="border-collapse: collapse; border: 0; padding: 20px; color: #555; font-size: 16px; line-height: 26px; vertical-align: top; background-color: white;">
-                                            <table style="font-weight: normal; border-collapse: collapse; border: 0; margin: 0; padding: 0;">
-                                                <tr>
-                                                    <td class="head-title" style="color: #333; font-size: 28px; line-height: 34px; font-weight: bold; text-align: center;">
-                                                        Welcome to FitWave, Reeshab Kumar!
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="sub-title" style="color: #555; font-size: 18px; line-height: 29px; font-weight: bold; text-align: center;">
-                                                        We're excited to have you on board!
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="top-padding" style="padding: 5px;"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="grey-block" style="color: #555; font-size: 16px; line-height: 26px; background-color: #f9f9f9; text-align: center;">                                                        <strong>What's next?</strong><br>
-                                                        Explore our features, and get started with personalized workout plans and more. <br><br>
-                                                        <a href="https://fitwave-smartwave.netlify.app/" style="color: #ffffff; background-color: #00a5b5; border: 10px solid #00a5b5; border-radius: 3px; text-decoration: none; padding: 10px 20px; display: inline-block;">Get Started</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="top-padding" style="padding: 15px 0;">
-                                                        <hr size="1" color="#eeeff0">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text" style="color: #555; font-size: 16px; line-height: 26px;">
-                                                        <p>Hello Reeshab,</p>
-                                                        <p>Welcome to FitWave! We’re thrilled to have you join our fitness community. Our platform offers a variety of features designed to help you achieve your fitness goals, including personalized workout plans, a comprehensive calorie tracker, and access to expert trainers.</p>
-                                                        <p>Feel free to explore our platform and make the most of your experience. If you have any questions, don’t hesitate to reach out to our support team.</p>
-                                                        <p>Best regards,<br>The FitWave Team</p>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text" style="text-align: center;">
-                                                        <a href="https://your-platform-url.com/contact" style="color: #ffffff; background-color: #00a5b5; border: 20px solid #00a5b5; border-radius: 3px; text-decoration: none; padding: 10px 20px; display: inline-block;">Contact Us</a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td valign="top" align="center" style="padding: 20px; font-size: 16px; line-height: 26px; background-color: #f9f9f9; text-align: center;">
-                                            <table>
-                                                <tr>
-                                                    <td style="padding: 10px;">
-                                                        <a href="https://x.com/KaplishAditya" style="color: #00a5b5;">Twitter</a>
-                                                    </td>
-                                                    <td style="padding: 10px;">
-                                                        <a href="https://www.linkedin.com/in/aditya-verma-a12457260/" style="color: #00a5b5;">Linked In</a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr bgcolor="#fff" style="border-top: 4px solid #00a5b5;">
-                                        <td valign="top" class="footer" style="color: #555; font-size: 12px; line-height: 16px; text-align: center;">
-                                            <table style="font-weight: normal; border-collapse: collapse; border: 0; margin: 0; padding: 0;">
-                                                <tr>
-                                                    <td class="inside-footer" align="center" valign="middle">
-                                                        <div id="address">
-                                                            <b>FitWave</b><br>
-                                                            123 Fitness St.<br>
-                                                            Fitness City, FC 12345<br>
-                                                            <a href="https://fitwave-smartwave.netlify.app" style="color: #00a5b5;">Contact Us</a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
+                <body>
+                    <div class="container">
+                        <h1>Welcome to FitWave!</h1>
+                        <p>We're excited to have you on board. Start exploring our fitness platform today and begin your journey towards your health and fitness goals.</p>
+                        <a href="https://fitwave-smartwave.netlify.app" class="button">Get Started</a>
+                        <p class="footer">If you have any questions, feel free to <a href="https://fitwave-smartwave.netlify.app/contact">contact us</a>.</p>
+                    </div>
                 </body>
-            </html>`,
+            </html>
+`,
         });
-
-        console.log("Message sent: %s", info.messageId);
     } catch (error) {
         console.error("Error sending email:", error);
     }
 }
-
-sendEmail();
+// sendEmail({email:'ujjawal.arora4812@gmail.com'})
+export default sendEmail;

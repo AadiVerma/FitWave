@@ -2,21 +2,24 @@ import { useForm } from "react-hook-form";
 import { useState, useMemo, useCallback } from "react";
 import '../App.css';
 import axios from "axios";
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
+
 export default function Profile() {
     const { register, handleSubmit, formState: { errors, isValid, isSubmitting }, setValue } = useForm({ mode: 'onChange' });
     const [imagePreview, setImagePreview] = useState(null);
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const [imageFile, setImageFile] = useState(null);
-    const location=useLocation();
-    const {email}=location.state;
+    const location = useLocation();
+    const { email } = location.state;
+
     const GenderEnum = useMemo(() => ({
         MALE: "Male",
         FEMALE: "Female",
         OTHER: "Others"
     }), []);
 
+    // Handle image change for profile picture
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -24,14 +27,33 @@ export default function Profile() {
             const reader = new FileReader();
             reader.onload = () => setImagePreview(reader.result);
             reader.readAsDataURL(file);
-            setValue("image", file); 
+            setValue("image", file);
         }
     };
 
     const onSubmit = useCallback(async (data) => {
+        const height = parseFloat(data.height);
+        const weight = parseFloat(data.weight);
+        const age = parseInt(data.age);
+
+        if (height > 300) {
+            toast.error('Height cannot exceed 300 cm');
+            return;
+        }
+
+        if (weight > 200) {
+            toast.error('Weight cannot exceed 200 kg');
+            return;
+        }
+
+        if (age > 120) {
+            toast.error('Age cannot be greater than 120');
+            return;
+        }
+
         const formData = new FormData();
         Object.keys(data).forEach(key => {
-            if (key !== 'image') { 
+            if (key !== 'image') {
                 formData.append(key, data[key]);
             }
         });
@@ -41,7 +63,7 @@ export default function Profile() {
                 const formData1 = new FormData();
                 formData1.append("file", imageFile);
                 formData1.append("upload_preset", "ml_default");
-                
+
                 const cloudinaryResponse = await fetch("https://api.cloudinary.com/v1_1/dq93uuksm/image/upload", {
                     method: "POST",
                     body: formData1
@@ -52,7 +74,7 @@ export default function Profile() {
                     formData.append("image", cloudinaryData.secure_url);
                 } else {
                     console.error('Error uploading image:', cloudinaryData);
-                    return; 
+                    return;
                 }
             } catch (error) {
                 console.error('Error uploading image:', error);
@@ -61,26 +83,42 @@ export default function Profile() {
         }
 
         try {
-            const response = await axios.post('http:localhost:4000/user/profile', {
-                height: parseFloat(formData.get('height')),
-                weight: parseFloat(formData.get('weight')),
-                age: parseInt(formData.get('age')),
-                gender: formData.get('gender'),
+            const response = await axios.post('http://localhost:3000/user/profile', {
+                height: height,
+                weight: weight,
+                age: age,
+                gender: data.gender,
                 image: formData.get('image'),
-                email:email
+                email: email
             }, {
                 withCredentials: true,
             });
 
             console.log(response);
-            navigate("/login")
+            toast.success('Profile updated successfully', {
+                style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                },
+            });
+            navigate("/login");
         } catch (error) {
             console.error('Error submitting form:', error);
+            toast.error('Error submitting profile', {
+
+                style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                },
+            });
         }
-    }, [imageFile]);
+    }, [imageFile, email]);
 
     return (
         <div className='custom-scrollbar min-h-screen h-fit'>
+            <Toaster />
             <div className='bg-black text-white font-space border-[#212121]'>
                 <div className='bg-black text-white w-full min-h-screen h-fit p-2 my-auto flex place-items-center justify-center'>
                     <form className='w-2/5 mx-auto h-fit mt-5 p-6 border-[#212121] rounded-lg border-2' onSubmit={handleSubmit(onSubmit)}>
@@ -112,16 +150,12 @@ export default function Profile() {
                         <div className="flex justify-center gap-4 mt-4 mb-4">
                             <div className="w-[50%]">
                                 <h1 className='text-sm font-semibold'>Height <span className='text-red-600'>*</span></h1>
-                                <input className='bg-transparent border-2 rounded-md outline-none p-2 mt-1 w-full border-[#121212] cursor-text' {...register("height", { required: { value: true, message: "This field is required." } })} placeholder="Height in m." />
+                                <input type="number" step="any" className='bg-transparent border-2 rounded-md outline-none p-2 mt-1 w-full border-[#121212] cursor-text' {...register("height", { required: { value: true, message: "This field is required." } })} placeholder="Height in cm." />
                                 {errors.height && <div className='text-red-600 mb-3 ml-1'>{errors.height.message}</div>}
                             </div>
                             <div className="w-[50%]">
                                 <h3 className='text-sm font-semibold'>Weight<span className='text-red-600'>*</span></h3>
-                                <input className='bg-transparent border-2 rounded-md outline-none p-2 mt-1 w-full border-[#121212] cursor-text' {...register("weight", {
-                                    required: { value: true, message: "This field is required." },
-                                })}
-                                    placeholder="Weight in kg." />
-
+                                <input type="number" step="any" className='bg-transparent border-2 rounded-md outline-none p-2 mt-1 w-full border-[#121212] cursor-text' {...register("weight", { required: { value: true, message: "This field is required." } })} placeholder="Weight in kg." />
                                 {errors.weight && <div className='text-red-600 mb-3 ml-1'>{errors.weight.message}</div>}
                             </div>
                         </div>
@@ -129,20 +163,16 @@ export default function Profile() {
                         <div className="flex justify-center gap-4 mt-4 mb-4">
                             <div className="w-[50%]">
                                 <h3 className='text-sm font-semibold'>Age<span className='text-red-600'>*</span></h3>
-                                <input className='bg-transparent border-2 rounded-md outline-none p-2 mt-1 w-full border-[#121212] cursor-text' {...register("age", {
-                                    required: { value: true, message: "This field is required." },
-                                })} placeholder="Age." />
+                                <input type="number" max="120" className='bg-transparent border-2 rounded-md outline-none p-2 mt-1 w-full border-[#121212] cursor-text' {...register("age", { required: { value: true, message: "This field is required." } })} placeholder="Age." />
                                 {errors.age && <div className='text-red-600 mb-3 ml-1'>{errors.age.message}</div>}
                             </div>
 
                             <div className="w-[50%]">
                                 <h3 className='text-sm font-semibold'>Gender<span className='text-red-600'>*</span></h3>
-                                <select className='bg-transparent border-2 rounded-md outline-none p-2 mt-1 w-full border-[#121212] cursor-text' {...register("gender", {
-                                    required: { value: true, message: "This field is required." },
-                                })}>
-                                    <option value={GenderEnum.MALE} className="bg-black text-white">Male</option>
-                                    <option value={GenderEnum.FEMALE} className="bg-black text-white">Female</option>
-                                    <option value={GenderEnum.OTHER} className="bg-black text-white">Other</option>
+                                <select className='bg-transparent border-2 rounded-md outline-none p-2 mt-1 w-full border-[#121212] cursor-text' {...register("gender", { required: { value: true, message: "This field is required." } })}>
+                                    <option value={GenderEnum.MALE} className="text-white bg-black">Male</option>
+                                    <option value={GenderEnum.FEMALE} className="text-white bg-black">Female</option>
+                                    <option value={GenderEnum.OTHER} className="text-white bg-black">Other</option>
                                 </select>
                                 {errors.gender && <div className='text-red-600 mb-3 ml-1'>{errors.gender.message}</div>}
                             </div>

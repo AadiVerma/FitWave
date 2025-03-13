@@ -1,70 +1,110 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { BsFire } from "react-icons/bs"; 
+import { useState } from 'react';
+import { BsFire } from "react-icons/bs";
 import { useForm } from "react-hook-form";
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 function App() {
-  const { handleSubmit, formState: {isSubmitting} } = useForm({mode:'onChange'});
-  const [search,setSearch] = useState("");
+  const { formState: { isSubmitting } } = useForm({ mode: 'onChange' });
+  const [search, setSearch] = useState("");
   const [calorieData, setCalorieData] = useState('');
-
-
-  const handleOnChange = (event) =>{
+  const [responsedata, setresponsedata] = useState([]);
+  const handleOnChange = (event) => {
     setSearch(event.target.value);
-  }
+  };
 
-    const query = search;
-    // const URL = `https://api.calorieninjas.com/v1/nutrition?query=${query}`;
-    // const URL = `https://cors-anywhere.herokuapp.com/https://api.calorieninjas.com/v1/nutrition?query=${query}`;
-    const URL = `http://localhost:3000/https://api.calorieninjas.com/v1/nutrition?query=${search}`;
+  const getData = async (e) => {
+    e.preventDefault();
+    const URL = `https://api.calorieninjas.com/v1/nutrition?query=${search}`;
 
-    const getData = async (e) => {
-      try {
-        const response = await axios.get(URL, {
-          headers: {
-            'X-Api-Key': 'dzzB2jwfIu6gbdl3gtm4DQ==2MHZf120qGHORZTn',
+    try {
+      const response = await axios.get(URL, {
+        headers: {
+          'X-Api-Key': 'dzzB2jwfIu6gbdl3gtm4DQ==2MHZf120qGHORZTn',
+        },
+      });
+
+      const data = response.data.items;
+      let result = '';
+      let totalCalories = 0;
+      let itemsList = [];
+      setresponsedata(data);
+      if (data.length == 0) {
+        toast.error('Item not found or invalid input. Please try again.', {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
           },
-        });
-  
-        // Process the response data
-        const data = response.data.items;
-        console.log(data);
-        let result = '';
-        let totalCalories = 0;
-  
-        data.forEach(item => {
-          const calories = item.calories;
-          result += `Calories of ${item.name}:   ${calories.toFixed(2)}\n`;
-          totalCalories += calories;
-        });
-  
-        // Append total calories at the end
-        result += `Total Calories are:   ${totalCalories.toFixed(2)}`;
-  
-        setCalorieData(result);
-      } catch (err) {
-        console.log(err);
+        })
       }
+      // Process each item and push to itemsList array
+      data.forEach(item => {
+        const calories = item.calories;
+        itemsList.push({
+          name: item.name,
+          calories: calories.toFixed(2),
+        });
+        totalCalories += calories;
+      });
+
+      result = `Total Calories: ${totalCalories.toFixed(2)}`;
+      setCalorieData({ items: itemsList, total: result });
+    } catch (err) {
+      console.log(err);
     }
+  };
 
   return (
-    <div className="bg-black flex flex-col justify-center items-center">
-      <div className=' w-full'>
-        <div className='flex justify-center mt-2'>
-          <h1 className='text-orange-500 text-2xl mx-3 my-1 '><BsFire /></h1>
-          <h1 className="text-2xl font-bold mb-6  text-white">Calorie Intake Calculator</h1>
+    <div className="bg-black flex flex-col justify-center items-center p-6 rounded-xl">
+      <div className="w-full p-8 bg-black rounded-lg shadow-2xl">
+        {/* Title Section */}
+        <div className="flex justify-center items-center mb-8 w-[100%]">
+          <h1 className="text-4xl font-extrabold text-[#CCFF33] flex items-center gap-2">
+            <BsFire className="text-[#CCFF33]" />
+            Calorie Intake Calculator
+          </h1>
         </div>
-        <form onSubmit={handleSubmit(getData)} className=" text-white p-8 rounded w-full">
-          <input className=" w-full rounded-full border border-gray-400 text-black p-2 px-4 focus:outline-none focus:ring focus:border-pink-500 transition-all" type="text" onChange={handleOnChange} value={search}  placeholder="Enter food items (e.g., rice, fish, curd etc.)"/>
 
-          <button type="submit" className={`mx-[42%] bg-pink-500 hover:bg-pink-600 w-[200px] text-xl py-1 mt-5 text-white rounded ${isSubmitting ? 'cursor-not-allowed opacity-50' : ''}`} disabled={isSubmitting}>
-          
-          {isSubmitting ? 'Loading...' : 'Generate Calories' }
+        {/* Form Section */}
+        <form
+          onSubmit={getData}
+          className="bg-black p-6 rounded-lg shadow-md space-y-6"
+        >
+          <input
+            type="text"
+            className="w-full p-4 rounded-xl border-2 border-[#CCFF33] text-white bg-transparent focus:outline-none focus:ring-2 focus:ring-[#CCFF33] transition-all duration-300 ease-in-out"
+            placeholder="Enter food items (e.g., rice, fish, curd etc.)"
+            onChange={handleOnChange}
+            value={search}
+          />
+
+          <button
+            type="submit"
+            className={`w-full py-3 rounded-xl text-white text-lg font-semibold border-2 border-[#CCFF33] hover:bg-[#CCFF33] hover:text-black transition-all duration-300 ${isSubmitting ? "cursor-not-allowed opacity-50" : ""}`}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Loading..." : "Calculate Calories"}
           </button>
         </form>
-        {calorieData && (
-          <div className="mt-3">
-            <h2 className="text-lg font-bold text-white text-center whitespace-pre-wrap">{calorieData}</h2>
+
+        {/* Calorie Data Section */}
+        {calorieData && responsedata.length != 0 && (
+          <div className="mt-6 text-center">
+            {/* Display list of items */}
+            <ul className="list-none text-white font-semibold space-y-2">
+              {calorieData.items.map((item, index) => (
+                <li key={index}>
+                  Calories of <strong>{item.name}</strong>: {item.calories}
+                </li>
+              ))}
+            </ul>
+
+            {/* Display total calories */}
+            {responsedata.length != 0 && <div className="mt-4 text-lg font-bold">
+              <p className='text-[#CCFF33]'>{calorieData.total}</p>
+            </div>
+            }
           </div>
         )}
       </div>

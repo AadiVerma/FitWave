@@ -5,7 +5,8 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { authselector } from "../redux/slices/slice";
 import { useNavigate } from "react-router-dom";
-import { helix} from 'ldrs'
+import { helix } from 'ldrs'
+import toast,{Toaster} from 'react-hot-toast';
 const parseWorkoutPlan = (response) => {
     const sections = response.trim().split(/\n(?=[A-Za-z])/);
 
@@ -103,14 +104,10 @@ export default function Aigenerated() {
             let structuredPlan;
             let isDataValid = false;
             setLoader(true);
-            function delay(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
-            }
             while (!isDataValid) {
-                await delay(Math.random() * 1000 + 1000);
-                data1 = await axios.post('http://localhost:3000/api/ai',{
-                    height:height,
-                    weight:weight,
+                data1 = await axios.post('http://localhost:3000/api/ai', {
+                    height: height,
+                    weight: weight,
                     goal: goal,
                     gender: gender
                 }, {
@@ -129,32 +126,65 @@ export default function Aigenerated() {
     const isFormValid = () => {
         return height.trim() !== '' && weight.trim() !== '' && goal.trim() !== '' && gender.trim() !== '';
     };
+    const handleHeightChange = (e) => {
+        const value = e.target.value;
+        if (value >= 0 && value <= 300) {
+            setHeight(value);
+        } else {
+            toast.error('Invalid height. Please keep it below 300 cm.',
+            {
+                  style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                  },
+                }
+              );
+        }
+    };
 
+    const handleWeightChange = (e) => {
+        const value = e.target.value;
+        if (value >= 0 && value <= 200) {
+            setWeight(value);
+        } else {
+            toast.error('Invalid weight. Please ensure it is less than 200 kg.',
+            {
+                      style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                      },
+                    }
+                  );
+        }
+    };
     return (
         <div className="bg- from-gray-900 via-teal-900 to-black text-white font-space custom-scrollbar min-h-[100%] h-fit">
+            <Toaster/>
             <div className="flex justify-center items-center mt-6">
                 <h1 className="text-3xl font-extrabold font-manrope leading-snug text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-pink-600 to-purple-600">Personalized Fitness Plan Crafted by AI</h1>
             </div>
             <div className="flex justify-center place-items-center mt-10 gap-4">
-                <input 
-                    type="text" 
-                    placeholder="Height in inches" 
-                    className="rounded p-2 bg-transparent border-2 border-purple-600 outline-none placeholder:text-white text-white" 
-                    value={height} 
-                    onChange={(e) => setHeight(e.target.value)} 
+                <input
+                    type="number"
+                    placeholder="Height in cm"
+                    className="rounded p-2 bg-transparent border-2 border-purple-600 outline-none placeholder:text-white text-white"
+                    value={height}
+                    onChange={handleHeightChange}
                     required
                 />
-                <input 
-                    type="text" 
-                    placeholder="Weight in Kgs." 
-                    className="rounded p-2 bg-transparent border-2 border-pink-600 outline-none placeholder:text-white text-white" 
-                    value={weight} 
-                    onChange={(e) => setWeight(e.target.value)} 
+                <input
+                    type="number"
+                    placeholder="Weight in Kgs."
+                    className="rounded p-2 bg-transparent border-2 border-pink-600 outline-none placeholder:text-white text-white"
+                    value={weight}
+                    onChange={handleWeightChange}
                     required
                 />
                 <div className="flex gap-4 justify-center place-items-center">
                     <div>
-                        <select 
+                        <select
                             className="pl-16 pr-16 bg-transparent border-2 border-purple-600 rounded p-2 outline-none"
                             value={goal}
                             onChange={(e) => setGoal(e.target.value)}
@@ -164,7 +194,7 @@ export default function Aigenerated() {
                             <option value="cut" className="bg-[#121212] text-white">Cut</option>
                         </select>
                     </div>
-                    <select 
+                    <select
                         className="pl-16 pr-16 bg-transparent border-2 border-pink-600 rounded p-2 outline-none"
                         value={gender}
                         onChange={(e) => setGender(e.target.value)}
@@ -180,7 +210,7 @@ export default function Aigenerated() {
                     <div
                         className="outline-none absolute transitiona-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg group-hover:opacity-70 group-hover:-inset-1 group-hover:duration-200 animate-tilt"
                     ></div>
-                    <button 
+                    <button
                         onClick={handleclick}
                         className={`outline-none relative inline-flex items-center justify-center px-6 py-2 text-lg font-bold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-gray-400 ${!isFormValid() ? 'opacity-50 cursor-not-allowed' : ''}`}
                         disabled={!isFormValid()}
@@ -189,14 +219,14 @@ export default function Aigenerated() {
                     </button>
                 </div>
             </div>
-           {loader?<div className='bg-black flex justify-center place-content-center place-items-center font-space custom-scrollbar mt-20 h-fit text-white' >
+            {loader ? <div className='bg-black flex justify-center place-content-center place-items-center font-space custom-scrollbar mt-20 h-fit text-white' >
                 <l-helix
                     size="80"
                     stroke="4"
                     speed="1.4"
                     color="rgb(147 51 234)"
                 ></l-helix>
-            </div>: <div className="mt-6">
+            </div> : <div className="mt-6">
                 {data && Object.keys(data).map((key) => (
                     <div key={key} className="flex flex-col items-start ml-[30%] mb-4">
                         <h1 className="text-2xl font-bold text-[#CCFF33] mb-3">{key}</h1>

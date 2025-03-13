@@ -6,8 +6,8 @@ const userSchema = mongoose.Schema({
         unique: true,
         trim: true,
     },
-    ProfilePic:{
-        type:String,
+    ProfilePic: {
+        type: String,
     },
     email: {
         type: String,
@@ -26,9 +26,49 @@ const userSchema = mongoose.Schema({
     age: {
         type: Number,
     },
+    role: {
+        type: String,
+        enum: ["Admin", "User"],
+        default: "User"
+    },
     trainers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Trainers'
+    }],
+    Block: {
+        type: Boolean,
+        default: false
+    },
+    addToCart: [{
+        type: {
+            image: String,
+            name: String,
+            points: String,
+            count: String,
+            price: String,
+            lastprice: String
+        }
+    }],
+    AIplanPurchases:{
+        type:String,
+        enum: ["Free", "Premium","Pro"],
+        default:"Free"
+    },
+    CoursePurchases:{
+        type:[{
+            name : String,
+            price : Number,
+            image : String,
+        }],
+        default:[],
+    },
+    placedOrder: [{
+        type: {
+            image: String,
+            name: String,
+            quantity: String,
+            price: String,
+        }
     }],
     Goals: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -47,9 +87,9 @@ const userSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Purchase'
     }],
-    OTP:{
-        type:Number,
-        default:null
+    OTP: {
+        type: Number,
+        default: null
     }
 },
     {

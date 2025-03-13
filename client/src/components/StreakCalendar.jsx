@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { generateDate, months } from "./util/calendar";
+import { generateDate, months } from "../components/util/Calendar";
 import cn from "./util/cn";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { SiTicktick } from "react-icons/si";
@@ -14,7 +14,7 @@ export default function Calendar() {
     useEffect(()=>{
         const fetchData=async ()=>{
             const response=await axios.post('http://localhost:3000/user/daysactice',{
-               username:"AadiVerma"
+               username:localStorage.getItem("username")
             });
             const daysActive = response.data;
             const updatedTasks = {};

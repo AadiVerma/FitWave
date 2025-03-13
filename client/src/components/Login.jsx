@@ -1,20 +1,26 @@
 import { useForm } from "react-hook-form";
-import { MdOutlineFitnessCenter } from "react-icons/md";
-import { GoogleLogin } from 'react-google-login';
-import { FcGoogle } from "react-icons/fc";
 import toast, { Toaster } from 'react-hot-toast';
-const clientID = "456140993308-lj743g6h1ssb2si49pb8rgvlrkc28u20.apps.googleusercontent.com";
 import '../App.css'
+import { FaRegUser, FaLock } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { addcookie } from '../redux/slices/slice.js'
 import { useDispatch } from "react-redux";
-
-export default function Login(){
+import { useEffect, useState } from "react";
+import { IoEye, IoEyeOffSharp } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { authselector } from "../redux/slices/slice";
+export default function Login() {
     const dispatch = useDispatch();
-    const { register, handleSubmit, formState: { errors, isValid, isSubmitting } } = useForm({ mode: 'onChange' });
+    const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onChange' });
     const navigate = useNavigate();
-
+    const auth = useSelector(authselector);
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    useEffect(()=>{
+        if(auth){
+            navigate("/");
+        }
+    })
     const delay = (d) => {
         return new Promise((resolve) => {
             setTimeout(() => {
@@ -22,122 +28,117 @@ export default function Login(){
             }, d * 1000);
         })
     }
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
 
     const onSubmit = async (data) => {
         await toast.promise(
             delay(2).then(async () => {
-               const response=await axios.post("http://localhost:3000/user/login", {
-                    username: data.username,
-                    password: data.password,
-                    email: data.email
-                }, {   
-                    withCredentials: true,
-                });
-                localStorage.setItem("token",response.data.token);
-                localStorage.setItem("username",response.data.username);
-                localStorage.setItem("profilePic",response.data.profilePic);
-                dispatch(addcookie(true));
-                navigate("/");
+                try {
+                    const response = await axios.post("http://localhost:3000/user/login", {
+                        username: data.username,
+                        password: data.password,
+                    }, {
+                        withCredentials: true,
+                    });
+                    localStorage.setItem("token", response.data.token);
+                    localStorage.setItem("username", response.data.username);
+                    localStorage.setItem("profilePic", response.data.profilePic);
+                    dispatch(addcookie(true));
+                    window.location.reload();
+
+                    return response; 
+                } catch (error) {
+                    throw new Error(error.response?.data?.error || "Login failed due to network error");
+                }
             }),
             {
                 loading: 'Logging in...',
                 success: 'Login successful!',
-                error: 'Login failed. Please try again.',
-
+                error: (error) => `Login Failed! ${error.message}`, 
+            },
+            {
+                style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                }
             }
         ).catch(error => {
             console.error('Fetch error:', error);
         });
-    }
-    const onSuccess = (res) => {
-        console.log("Login Success! Current user: ", res.profileObj);
-    };
-
-    const onFailure = (res) => {
-        console.log("Login Failed! res: ", res);
     };
 
     return (
-        <div className='custom-scrollbar min-h-screen h-fit'>
-            <Toaster />
-            <div className='bg-black text-white font-space border-[#212121] '>
-                <div className='bg-black text-white w-full h-screen p-5 my-auto'>
-                    <form className='w-2/5 mx-auto h-[550px] mt-5 p-4 border-[#212121] rounded-lg border-2' onSubmit={handleSubmit(onSubmit)}>
-                        <div className='w-full text-center'>
-                            <MdOutlineFitnessCenter className="w-full text-[#CCFF33] text-6xl transform -rotate-45 cursor-pointer" />
-                            <h2 className='text-xl font-semibold mt-[-4px]'>Welcome to FitWave</h2>
-                            <h4 className='text-sm mt-[-1px] mb-2'>Login to your account to access our services</h4>
-                        </div>
+        <div className="flex w-[100%] relative min-h-screen justify-center place-items-center">
+            <div className='w-[100%]'>
+                <Toaster />
+                <img src="/bgimage2.jpg" className="absolute top-0 h-screen w-full object-cover grayscale opacity-25" />
+                <div className='bg-black text-white font-space flex'>
+                    <div className='bg-black text-white w-full h-fit p-5 my-auto'>
+                        <form className='w-2/5 mx-auto h-fit mt-5 p-6 border-[#212121] border-2 rounded-xl bg-black   backdrop-blur-sm border-white/18 ' onSubmit={handleSubmit(onSubmit)}>
+                            <h1 className='text-md font-semibold text-neutral-400 mb-1'>Username</h1>
+                            <div className="flex">
+                                <div className="flex flex-col justify-center place-items-center border-l-2 border-t-2 pl-2 border-b-2 rounded-l-lg mt-1 border-[#121212] ">
+                                    <FaRegUser className="text-neutral-400 " />
+                                </div>
+                                <input className='bg-transparent border-r-2 border-t-2 border-b-2  rounded-r-lg outline-none p-2 mt-1 w-full border-[#121212] ' {...register("username", { required: { "value": true, "message": "This field is required." }, minLength: { value: 3, message: "Username must be at least 3 characters long" } })} placeholder="Username" />
+                            </div>
+                            {errors.username && <div className='text-red-600 mb-3 ml-1'>{errors.username.message}</div>}
 
-                        <h1 className='text-sm font-semibold'>Username <span className='text-red-600'>   *</span></h1>
-                        <input className='bg-transparent border-2 rounded-md outline-none p-2 mt-1 w-full  border-[#121212] cursor-text' {...register("username", { required: { "value": true, "message": "This field is required." }, minLength: { value: 3, message: "Username must be at least 3 characters long" } })} placeholder="Username" />
+                            <div className="flex justify-between">
+                                <h3 className='text-md font-semibold text-neutral-400 mb-1 mt-4'>Password</h3>
+                                <h1 className='text-sm text-center flex flex-col  justify-end font-semibold 
+                        hover:text-[#ccff33d5] cursor-pointer text-[#ccff33]' onClick={() => {
+                                        navigate("/forgotpwd")
+                                    }}>Forgot password ?</h1>
+                            </div>
+                            <div className="flex relative">
+                                <div className="flex flex-col justify-center place-items-center border-l-2 border-t-2 pl-2 border-b-2 rounded-l-lg mt-1 border-[#121212] ">
+                                    <FaLock className="text-neutral-400 " />
+                                </div>
+                                <input
+                                    type={passwordVisible ? "text" : "password"}
+                                    className='bg-transparent border-r-2 border-t-2 border-b-2  rounded-r-lg outline-none p-2 mt-1 w-full border-[#121212] ' {...register("password", {
+                                        required: { "value": true, "message": "This field is required." },
+                                        minLength: {
+                                            value: 7,
+                                            message: "Password must be at least 7 characters long"
+                                        },
+                                        pattern: {
+                                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{7,}$/,
+                                            message: "Password must contain at least one uppercase letter, one lowercase letter, and one symbol"
+                                        }
+                                    })} placeholder="Password" />
+                                <button type="button" onClick={togglePasswordVisibility} className="absolute top-4 right-4">
+                                    {passwordVisible ? <IoEyeOffSharp className="text-neutral-400 " /> : <IoEye className="text-neutral-400 " />}
+                                </button>
+                            </div>
+                            {errors.password && <div className='text-red-600 mb-3 ml-1'>{errors.password.message}</div>}
+                            <button className={`bg-gradient-to-b from-[#ccff33] to-[#99cc00] p-2 rounded-xl mt-4 block w-full cursor-pointer text-center font-semibold text-black`}>
+                                Login
+                            </button>
 
-                        {errors.username && <div className='text-red-600 mb-3 ml-1'>{errors.username.message}</div>}
 
-                        <h3 className='text-sm font-semibold'>Email<span className='text-red-600'>   *</span></h3>
-                        <input className='bg-transparent border-2 rounded-md outline-none p-2 mt-1 w-full border-[#121212] cursor-text' {...register("email", {
-                            required: { "value": true, "message": "This field is required." },
-                            pattern: {
-                                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                                message: "Invalid email address",
-                            }
-                        })}
-                            placeholder="Email" />
+                            <div className='w-full text-sm mt-2 flex justify-center '>
+                                <h3 className=''>Do not have an account?</h3>
+                                <p className='pl-3 text-[#ccff33] cursor-pointer hover:font-semibold' onClick={() => {
+                                    navigate("/signup")
+                                }}>Sign up</p>
+                            </div>
 
-                        {errors.email && <div className='text-red-600 mb-3 ml-1'>{errors.email.message}</div>}
+                            {/* <div className='flex justify-center'>
+                                <hr className='border-[#212121] border-[0.2px] w-[45%] mt-5 mr-2 ' />
+                                <h3 className='text-center mt-2 font-medium'>OR</h3>
+                                <hr className='border-[#212121] border-[0.2px] w-[45%] ml-2 mt-5 ' />
+                            </div>
 
-                        <h3 className='text-sm font-semibold'>Password<span className='text-red-600'>   *</span></h3>
-                        <input className='bg-transparent border-2 rounded-md outline-none p-2 mt-1 w-full border-[#121212] cursor-text' {...register("password", {
-                            required: { "value": true, "message": "This field is required." },
-                            minLength: {
-                                value: 7,
-                                message: "Password must be at least 7 characters long"
-                            },
-                            pattern: {
-                                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{7,}$/,
-                                message: "Password must contain at least one uppercase letter, one lowercase letter, and one symbol"
-                            }
-                        })} placeholder="Password" />
+                            <div className='flex justify-center mt-4 '>
+                            </div> */}
 
-                        {errors.password && <div className='text-red-600 mb-3 ml-1'>{errors.password.message}</div>}
-                        <input className={`bg-pink-500 hover:bg-pink-600 rounded-md mt-2 block w-full cursor-pointer text-center font-semibold p-2 ${!isValid || isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`} value="Continue" type="submit" disabled={!isValid || isSubmitting} />
-
-                        <div className='w-full text-sm mt-2 flex justify-center '>
-                            <h3 className=''>Don`t have an account?</h3>
-                            <p className='pl-3 text-emerald-400 cursor-pointer hover:font-semibold' onClick={() => {
-                                navigate("/signup")
-                            }}>Sign up</p>
-                        </div>
-
-                        <div className='flex justify-center'>
-                            <hr className='border-[#212121] border-[0.2px] w-[45%] mt-5 mr-2 ' />
-                            <h3 className='text-center mt-2 font-medium'>OR</h3>
-                            <hr className='border-[#212121] border-[0.2px] w-[45%] ml-2 mt-5 ' />
-                        </div>
-
-                        <div className='flex justify-center mt-4 '>
-
-                            <GoogleLogin
-                                clientId={clientID}
-                                onSuccess={onSuccess}
-                                onFailure={onFailure}
-                                cookiePolicy={'single_host_origin'}
-                                render={renderProps => (
-                                    <div className='flex w-[90%] bg-white justify-center rounded-lg cursor-pointer' onClick={renderProps.onClick}>
-                                        <FcGoogle className='text-3xl mt-1' />
-                                        <button disabled={renderProps.disabled} className='text-black font-extrabold rounded-md px-4 py-2 cursor-pointer'>
-                                            Login with Google
-                                        </button>
-                                    </div>
-
-                                )}
-                            />
-                        </div>
-                        <p className='text-sm text-white text-center mt-2 hover:font-semibold 
-                        hover:text-purple-300 cursor-pointer' onClick={() => {
-                                navigate("/forgotpwd")
-                            }}>Forgot password?</p>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

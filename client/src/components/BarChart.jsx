@@ -34,14 +34,14 @@ const options = {
         }
     },
 };
-function BarChart() {
+function BarChart({ activityData }) {
     const data = {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep","Oct", "Nov", "Dec"],
         datasets: [
             {
-                label: 'Actiities',
+                label: 'Activities',
                 display:false,
-                data: [20, 30, 50, 70, 80, 60,40, 50, 100, 70, 40, 90],
+                data: activityData ,
                 fill: false,
                  backgroundColor: 'rgb(204, 255, 51)',
                 borderColor: 'rgba(255, 255, 255, 0.2)',

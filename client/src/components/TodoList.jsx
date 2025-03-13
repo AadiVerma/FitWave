@@ -1,186 +1,215 @@
-import { useState,useEffect } from 'react';
-import axios from 'axios';
-import { FaUserLock } from "react-icons/fa";
+import { useState, useEffect } from 'react';
+import CalorieCounter from './CalorieCount'
 import '../App.css'
-import { useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
-import { FaRegEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import CalorieCount from './CalorieCount';
-import { IoFitnessSharp } from "react-icons/io5";
+import toast,{ Toaster } from 'react-hot-toast';
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { authselector } from "../redux/slices/slice";
+export default function TodoList() {
+  const [tasks, setTasks] = useState([]);
+  const [completedTasks, setCompletedTasks] = useState([]);
+  const [taskInput, setTaskInput] = useState('');
+  const auth = useSelector(authselector);
+  const navigate = useNavigate();
+  // Load tasks from localStorage on component mount
+  useEffect(() => {
+    if (!auth) {
+      navigate("/login");
+    }
+    const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    const storedCompletedTasks = JSON.parse(localStorage.getItem('completedTasks') || '[]');
+    setTasks(storedTasks);
+    setCompletedTasks(storedCompletedTasks);
+  }, []);
 
-export default function Login() {
-    const navigate = useNavigate();
+  // Save tasks to localStorage when tasks change
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+  }, [tasks, completedTasks]);
 
-    const [addTask, setAddTask] = useState("");
-    const [tasks,setTasks] = useState([]);
-    const [showFinishedTasks, setShowFinishedTasks] = useState(false);
-    const [goalState, setGoalState] = useState([]);
-    const [currentDate, setCurrentDate] = useState(new Date());
-  
-    useEffect(()=>{
-      let taskString = localStorage.getItem("tasks");
-      if(taskString){
-        let tasks = JSON.parse(localStorage.getItem("tasks"));
-        setTasks(tasks);
-      }
-    },[])
-  
-    const updateDate = () => {
-      setCurrentDate(new Date());
+  // Add new task
+  const addTask = () => {
+    if (taskInput.trim() === '') {
+      toast.error('Task cannot be empty', {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      })
+      return;
+    }
+
+    const newTask = {
+      id: Date.now(),
+      text: taskInput.trim(),
+      createdAt: new Date().toLocaleString()
     };
 
-    // Calculate the time until midnight to set the next update
-  const now = new Date();
-  const msUntilMidnight = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate() + 1,
-    0,
-    0,
-    0
-  ) - now;
-
-  const timeoutId = setTimeout(() => {
-    updateDate();
-    const intervalId = setInterval(updateDate, 24 * 60 * 60 * 1000); // Update every 24 hours
-    // Cleanup function for interval
-    return () => clearInterval(intervalId);
-  }, msUntilMidnight);
-
-  const saveToLS = () =>{
-    localStorage.setItem("tasks",JSON.stringify(tasks));
-  }
-
-
-  const handleAdd = () =>{
-    setTasks([...tasks,{id: uuidv4(), addTask, isCompleted:false, goalType:"none"}]);
-    setAddTask("");
-    saveToLS();
-  }
-
-  const handleEdit = (event,id) =>{
-
-    let taskToEdit = tasks.find(item => item.id === id);
-    if (taskToEdit) {
-      setAddTask(taskToEdit.addTask);
-    }
-    let updatedTasks = tasks.filter(item => item.id !== id);
-    setTasks(updatedTasks);
-    saveToLS();
-  }
-
-  const handleDelete = (event,id) =>{
-    let newTasks = tasks.filter(item=>{
-      return item.id !== id;
-    });
-    setTasks(newTasks);
-    saveToLS();
-  }
-
-
-  const handleOnChange = (event) =>{
-    setAddTask(event.target.value);
-  }
-
-  const handleCheckbox = (event) =>{
-    let id = event.target.name;
-    let index = tasks.findIndex(item=>{
-      return item.id === id;
-    })
-    
-
-    let newTasks = [...tasks];
-    
-    newTasks[index].isCompleted = !newTasks[index].isCompleted;
-    setTasks(newTasks);
-    saveToLS();
-  }
-
-
-  const handleFinishedTasks = () => {
-    setShowFinishedTasks(!showFinishedTasks);
+    setTasks([...tasks, newTask]);
+    setTaskInput('');
   };
 
-  const displayedTasks = showFinishedTasks ? tasks.filter(item => item.isCompleted) : tasks;
+  // Complete a task
+  const completeTask = (taskId) => {
+    const taskToComplete = tasks.find(task => task.id === taskId);
+    if (taskToComplete) {
+      setCompletedTasks([
+        ...completedTasks,
+        { ...taskToComplete, completedAt: new Date().toLocaleString() }
+      ]);
+      setTasks(tasks.filter(task => task.id !== taskId));
+    }
+  };
 
-//   const typeOfGoal = (event,id, goalType) =>{
-//     let index = tasks.findIndex(item => item.id === id);
-//     let newTasks = [...tasks];
-//     newTasks[index].goalType = goalType;
-//     setTasks(newTasks);
-//     // saveToLS();
-//   }
+  // Delete a task
+  const deleteTask = (taskId, isCompleted = false) => {
+    if (isCompleted) {
+      setCompletedTasks(completedTasks.filter(task => task.id !== taskId));
+    } else {
+      setTasks(tasks.filter(task => task.id !== taskId));
+    }
+  };
 
-//   const getButtonClass = (goalType, currentGoal) => {
-//     if (goalType === currentGoal) {
-//       switch (currentGoal) {
-//         case 'short':
-//           return 'bg-red-600';
-//         case 'mid':
-//           return 'bg-yellow-600';
-//         case 'long':
-//           return 'bg-blue-600';
-//         default:
-//           return 'bg-purple-600';
-//       }
-//     }
-//     return 'bg-purple-600';
-//   };
+  // Drag and Drop Handlers
+  const handleDragStart = (e, task, isCompleted) => {
+    e.dataTransfer.setData('text/plain', JSON.stringify({
+      task,
+      isCompleted
+    }));
+  };
 
-    return (
-        <>
-            <div className='bg-black text-white font-space border-[#212121] '>
-                <div className='bg-black text-white w-[95%] p-5 my-auto'>
-                    <div className='w-full mx-auto  p-4 border-[#212121] rounded-lg border-2'>
-                    <CalorieCount/>
-                        <div className=' text-center mt-24 mb-5'>
-                        <div className='flex justify-center'>
-                            <h1 className='text-red-600 text-3xl mx-3 mt-1 '><IoFitnessSharp /></h1>
-                            <h1 className='text-2xl font-bold mb-2'>Add Your Fitness Plan</h1>
-                        </div>
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
 
-                            <p className='text-lg mb-4'>Today's Date: {currentDate.toDateString()}</p>
+  const handleDrop = (e, targetList) => {
+    e.preventDefault();
+    const droppedTaskData = JSON.parse(e.dataTransfer.getData('text/plain'));
+    const droppedTask = droppedTaskData.task;
+    const sourceList = droppedTaskData.isCompleted ? completedTasks : tasks;
 
-                            <input className=" w-full rounded-full border border-gray-400 text-black p-2 px-4 focus:outline-none focus:ring focus:border-pink-500 transition-all " type="text" onChange={handleOnChange} value={addTask}/>
-                                
-                            <button onClick={handleAdd} disabled={addTask.length<=2} className=' bg-[#CCFF33] hover:bg-[#b2e31d] text-black p-3 py-1 rounded-md disabled:bg-[#c9e575] font-bold block sm:w-full w-9/12 mx-auto mt-2'>Save</button>
+    // Remove from source list
+    sourceList.filter(t => t.id !== droppedTask.id);
 
-                            <button onClick={handleFinishedTasks} className=' text-lg bg-[#CCFF33] hover:hover:bg-[#b2e31d] px-2 ml-4  rounded-md mt-2 mb-4 font-bold text-black'>
-                            {showFinishedTasks ? "See All Tasks" : "See Finished Tasks"}
-                            </button>
-                            <div className= " h-[1px] opacity-25 w-[90%] mx-auto bg-black"></div>
-                            <h2 className="text-xl mb-6 font-medium ml-4">Your List</h2>
-                            <div className="ml-4">
+    if (targetList === 'todo') {
+      // Moving to Todo list
+      setTasks(prev => [...prev, droppedTask]);
+      setCompletedTasks(prev => prev.filter(t => t.id !== droppedTask.id));
+    } else {
+      // Moving to Completed list
+      setCompletedTasks(prev => [...prev, droppedTask]);
+      setTasks(prev => prev.filter(t => t.id !== droppedTask.id));
+    }
+  };
 
-                                {displayedTasks.length===0 && <div className='my-5'>No tasks to display</div>}
+  return (
+    <div className=" bg-transparent text-white p-8 font-sans w-[100%] h-fit min-h-screen">
+      <Toaster/>
+      <div className='border-2 border-[#121212] rounded-xl h-[100%]'>
+        <CalorieCounter />
+      </div>
+      <div className="mx-auto mt-10 border-2 border-[#121212] rounded-xl w-[100%] p-4">
+        <h1 className="text-4xl font-bold mb-8 text-center text-[#CCFF33]">
+          Todo List
+        </h1>
 
-                                {displayedTasks.map(item=>{
-                        
-                                    
-                                return <div className=" flex sm:w-full md:min-w-[70%] my-1 justify-between">
-                                    <div className='flex gap-5'>
+        {/* Task Input */}
+        <div className="flex mb-6 gap-2 h-[100%]">
+          <input
+            type="text"
+            value={taskInput}
+            onChange={(e) => setTaskInput(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && addTask()}
+            placeholder="Enter a new task"
+            className="flex-grow p-4 rounded-lg bg-black border-2 border-[#212121] text-white focus:outline-none focus:ring-2 focus:ring-[#CCFF33] transition"
+          />
+          <button
+            onClick={addTask}
+            className="bg-[#CCFF33] text-black px-6 py-4 border-2 border-[#CCFF33] rounded-lg transition"
+          >
+            Add Task
+          </button>
+        </div>
 
-                                        <input type="checkbox" checked={item.isCompleted?true:false}  onChange={handleCheckbox} name= {item.id} id="" />
-
-                                        <div className={`my-2 ${item.isCompleted?"line-through":""}`}>{item.addTask}</div>
-                                    </div>
-
-
-                            <div className="flex flex-wrap w-1/2">
-                                <button onClick={(event)=>handleEdit(event,item.id)} className='   bg-[#CCFF33] hover:bg-[#b2e31d] text-black p-2 py-1 rounded-md mx-2 my-1 font-bold k'><FaRegEdit /></button>
-
-                                <button onClick={(event)=>{handleDelete(event,item.id)}} className=' bg-[#CCFF33] hover:bg-[#b2e31d] text-black p-2 py-1 rounded-md mx-2 my-1 md:py-0px font-bold' name={item.id}><MdDelete /></button>
-                            </div>
-                            </div>
-                            })}
-                        </div>
-                    </div>
-
-                    </div>
+        {/* Tasks Container */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Todo List */}
+          <div
+            className="bg-black border-2 border-[#121212] rounded-lg p-6 h-fit shadow-lg"
+            onDragOver={handleDragOver}
+            onDrop={(e) => handleDrop(e, 'todo')}
+          >
+            <h2 className="text-2xl font-semibold mb-6 text-[#CCFF33]">ToDo</h2>
+            {tasks.length > 0 ? (
+              tasks.map(task => (
+                <div
+                  key={task.id}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, task, false)}
+                  className="bg-neutral-900 p-4 mb-4 rounded-lg flex justify-between items-center cursor-move  transition"
+                >
+                  <div>
+                    <p>{task.text}</p>
+                    <small className="text-gray-400 text-xs">Created: {task.createdAt}</small>
+                  </div>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => completeTask(task.id)}
+                      className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-700 transition"
+                    >
+                      Complete
+                    </button>
+                    <button
+                      onClick={() => deleteTask(task.id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
-            </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-400">No tasks available.</p>
+            )}
+          </div>
 
-        </>
-    )
+          {/* Completed List */}
+          <div
+            className="bg-black border-2 border-[#121212] rounded-lg p-6 h-fit shadow-lg"
+            onDragOver={handleDragOver}
+            onDrop={(e) => handleDrop(e, 'completed')}
+          >
+            <h2 className="text-2xl font-semibold mb-6 text-[#CCFF33]">Completed</h2>
+            {completedTasks.length > 0 ? (
+              completedTasks.map(task => (
+                <div
+                  key={task.id}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, task, true)}
+                  className="bg-neutral-900 p-4 mb-4 rounded-lg flex justify-between items-center cursor-move  transition"
+                >
+                  <div>
+                    <p className="line-through text-gray-400">{task.text}</p>
+                    <small className="text-gray-500 text-xs">Completed: {task.completedAt}</small>
+                  </div>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => deleteTask(task.id, true)}
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-400">No completed tasks.</p>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
